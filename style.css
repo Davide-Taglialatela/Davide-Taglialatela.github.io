@@ -1,0 +1,165 @@
+:root {
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --rule: #e4e4e4;
+  --accent: #a51c30;
+  --bg: #ffffff;
+  --panel: #f7f7f7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wrapper {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 80px 28px 120px;
+}
+
+header {
+  margin-bottom: 56px;
+}
+
+.name {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 38px;
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+
+.role {
+  font-size: 15px;
+  color: var(--muted);
+  margin: 0 0 36px;
+  padding-bottom: 18px;
+  border-bottom: 1.5px solid var(--text);
+}
+
+.intro {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+.photo-block {
+  flex-shrink: 0;
+  width: 150px;
+}
+
+.photo-block img {
+  width: 150px;
+  height: auto;
+  display: block;
+}
+
+.photo-placeholder {
+  width: 150px;
+  height: 190px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 13.5px;
+}
+
+.intro-text p {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+
+.intro-text p + p {
+  margin-top: 14px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+a:hover {
+  border-bottom-color: var(--accent);
+}
+
+section {
+  margin-top: 64px;
+}
+
+h2 {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0 0 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.paper-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+
+.paper-links {
+  font-size: 13.5px;
+  margin: 0 0 14px;
+}
+
+.abstract {
+  padding: 16px 18px;
+  background: var(--panel);
+  border-radius: 6px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: #444;
+}
+
+.abstract p {
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  .wrapper {
+    padding: 48px 20px 80px;
+  }
+  .intro {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .photo-block,
+  .photo-block img,
+  .photo-placeholder {
+    width: 120px;
+  }
+  .photo-placeholder {
+    height: 152px;
+  }
+}
