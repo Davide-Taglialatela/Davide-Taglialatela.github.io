@@ -171,3 +171,9 @@ details.abstract summary::-webkit-details-marker { display: none; }
 details.abstract summary::before { content: "\25B8"; display: inline-block; width: 1em; }
 details.abstract[open] summary::before { content: "\25BE"; }
 details.abstract p { margin-top: 0.5rem; }
+
+/* interests + teaching */
+.interests { margin-top: 0.4rem; }
+.teaching-note { margin: 0 0 0.4rem 0; }
+ul.teaching { list-style: none; padding: 0; margin: 0; }
+ul.teaching li { margin: 0.15rem 0; }
