@@ -180,3 +180,8 @@ ul.teaching li { margin: 0.15rem 0; }
 
 .wrapper ul.teaching { list-style: none; padding-left: 0; margin-left: 0; }
 .wrapper ul.teaching li { padding-left: 0; }
+
+.paper-links .sep {
+  color: var(--muted);
+  margin: 0 6px;
+}
