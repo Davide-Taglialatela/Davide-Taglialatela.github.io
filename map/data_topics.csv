@@ -1,4 +1,74 @@
 scope,year,n_articles,category,share
+Local,2000,41819,Skeptical,0.0047
+Local,2000,41819,Climate-linked,0.0641
+Local,2000,41819,Personal storytelling,0.2465
+Local,2000,41819,Human impacts,0.0615
+Local,2000,41819,Institutional response,0.0936
+Local,2000,41819,Disaster background and risk,0.0681
+Local,2000,41819,Event facts,0.4616
+Local,2001,37210,Skeptical,0.0033
+Local,2001,37210,Climate-linked,0.0514
+Local,2001,37210,Personal storytelling,0.2778
+Local,2001,37210,Human impacts,0.0606
+Local,2001,37210,Institutional response,0.0972
+Local,2001,37210,Disaster background and risk,0.0664
+Local,2001,37210,Event facts,0.4433
+Local,2002,39259,Skeptical,0.0048
+Local,2002,39259,Climate-linked,0.0644
+Local,2002,39259,Personal storytelling,0.2600
+Local,2002,39259,Human impacts,0.0558
+Local,2002,39259,Institutional response,0.1006
+Local,2002,39259,Disaster background and risk,0.0734
+Local,2002,39259,Event facts,0.4411
+Local,2003,50609,Skeptical,0.0031
+Local,2003,50609,Climate-linked,0.0483
+Local,2003,50609,Personal storytelling,0.2935
+Local,2003,50609,Human impacts,0.0565
+Local,2003,50609,Institutional response,0.1056
+Local,2003,50609,Disaster background and risk,0.0632
+Local,2003,50609,Event facts,0.4298
+Local,2004,64788,Skeptical,0.0032
+Local,2004,64788,Climate-linked,0.0427
+Local,2004,64788,Personal storytelling,0.3499
+Local,2004,64788,Human impacts,0.0468
+Local,2004,64788,Institutional response,0.1137
+Local,2004,64788,Disaster background and risk,0.0499
+Local,2004,64788,Event facts,0.3938
+Local,2005,123353,Skeptical,0.0043
+Local,2005,123353,Climate-linked,0.0326
+Local,2005,123353,Personal storytelling,0.3535
+Local,2005,123353,Human impacts,0.0801
+Local,2005,123353,Institutional response,0.1161
+Local,2005,123353,Disaster background and risk,0.0374
+Local,2005,123353,Event facts,0.3760
+Local,2006,76218,Skeptical,0.0053
+Local,2006,76218,Climate-linked,0.0602
+Local,2006,76218,Personal storytelling,0.3096
+Local,2006,76218,Human impacts,0.0570
+Local,2006,76218,Institutional response,0.1145
+Local,2006,76218,Disaster background and risk,0.0472
+Local,2006,76218,Event facts,0.4063
+Local,2007,69219,Skeptical,0.0094
+Local,2007,69219,Climate-linked,0.0815
+Local,2007,69219,Personal storytelling,0.2743
+Local,2007,69219,Human impacts,0.0452
+Local,2007,69219,Institutional response,0.1161
+Local,2007,69219,Disaster background and risk,0.0566
+Local,2007,69219,Event facts,0.4169
+Local,2008,70895,Skeptical,0.0053
+Local,2008,70895,Climate-linked,0.0564
+Local,2008,70895,Personal storytelling,0.2587
+Local,2008,70895,Human impacts,0.0474
+Local,2008,70895,Institutional response,0.1094
+Local,2008,70895,Disaster background and risk,0.0457
+Local,2008,70895,Event facts,0.4769
+Local,2009,50333,Skeptical,0.0050
+Local,2009,50333,Climate-linked,0.0656
+Local,2009,50333,Personal storytelling,0.2163
+Local,2009,50333,Human impacts,0.0398
+Local,2009,50333,Institutional response,0.1088
+Local,2009,50333,Disaster background and risk,0.0547
+Local,2009,50333,Event facts,0.5096
 Local,2010,70260,Skeptical,0.0040
 Local,2010,70260,Climate-linked,0.0505
 Local,2010,70260,Personal storytelling,0.2692
@@ -104,6 +174,76 @@ Local,2024,38402,Human impacts,0.0560
 Local,2024,38402,Institutional response,0.1361
 Local,2024,38402,Disaster background and risk,0.0655
 Local,2024,38402,Event facts,0.2920
+National,2000,1814,Skeptical,0.0182
+National,2000,1814,Climate-linked,0.1163
+National,2000,1814,Personal storytelling,0.2679
+National,2000,1814,Human impacts,0.0921
+National,2000,1814,Institutional response,0.0832
+National,2000,1814,Disaster background and risk,0.0799
+National,2000,1814,Event facts,0.3423
+National,2001,1993,Skeptical,0.0140
+National,2001,1993,Climate-linked,0.0818
+National,2001,1993,Personal storytelling,0.3302
+National,2001,1993,Human impacts,0.0998
+National,2001,1993,Institutional response,0.0823
+National,2001,1993,Disaster background and risk,0.0622
+National,2001,1993,Event facts,0.3297
+National,2002,2112,Skeptical,0.0123
+National,2002,2112,Climate-linked,0.1245
+National,2002,2112,Personal storytelling,0.3139
+National,2002,2112,Human impacts,0.0838
+National,2002,2112,Institutional response,0.1056
+National,2002,2112,Disaster background and risk,0.0611
+National,2002,2112,Event facts,0.2988
+National,2003,2546,Skeptical,0.0114
+National,2003,2546,Climate-linked,0.0837
+National,2003,2546,Personal storytelling,0.3727
+National,2003,2546,Human impacts,0.0782
+National,2003,2546,Institutional response,0.1072
+National,2003,2546,Disaster background and risk,0.0593
+National,2003,2546,Event facts,0.2875
+National,2004,2294,Skeptical,0.0148
+National,2004,2294,Climate-linked,0.0920
+National,2004,2294,Personal storytelling,0.3461
+National,2004,2294,Human impacts,0.0937
+National,2004,2294,Institutional response,0.0780
+National,2004,2294,Disaster background and risk,0.0493
+National,2004,2294,Event facts,0.3261
+National,2005,6571,Skeptical,0.0123
+National,2005,6571,Climate-linked,0.0522
+National,2005,6571,Personal storytelling,0.3768
+National,2005,6571,Human impacts,0.1154
+National,2005,6571,Institutional response,0.1344
+National,2005,6571,Disaster background and risk,0.0347
+National,2005,6571,Event facts,0.2742
+National,2006,3394,Skeptical,0.0180
+National,2006,3394,Climate-linked,0.1131
+National,2006,3394,Personal storytelling,0.3433
+National,2006,3394,Human impacts,0.1028
+National,2006,3394,Institutional response,0.0975
+National,2006,3394,Disaster background and risk,0.0424
+National,2006,3394,Event facts,0.2829
+National,2007,2699,Skeptical,0.0278
+National,2007,2699,Climate-linked,0.1601
+National,2007,2699,Personal storytelling,0.3127
+National,2007,2699,Human impacts,0.0923
+National,2007,2699,Institutional response,0.0911
+National,2007,2699,Disaster background and risk,0.0433
+National,2007,2699,Event facts,0.2727
+National,2008,2938,Skeptical,0.0170
+National,2008,2938,Climate-linked,0.1096
+National,2008,2938,Personal storytelling,0.3233
+National,2008,2938,Human impacts,0.1389
+National,2008,2938,Institutional response,0.0711
+National,2008,2938,Disaster background and risk,0.0391
+National,2008,2938,Event facts,0.3009
+National,2009,1681,Skeptical,0.0208
+National,2009,1681,Climate-linked,0.1446
+National,2009,1681,Personal storytelling,0.2867
+National,2009,1681,Human impacts,0.1208
+National,2009,1681,Institutional response,0.0726
+National,2009,1681,Disaster background and risk,0.0625
+National,2009,1681,Event facts,0.2921
 National,2010,3630,Skeptical,0.0091
 National,2010,3630,Climate-linked,0.0749
 National,2010,3630,Personal storytelling,0.3468

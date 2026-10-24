@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>What disaster coverage talks about &middot; Davide Taglialatela</title>
-    <meta name="description" content="Composition of U.S. local and national disaster news by category, 2010-2024: climate-linked, skeptical, personal storytelling, human impacts, institutional response, disaster background and event facts." />
+    <meta name="description" content="Composition of U.S. local and national disaster news by category, 2000-2024: climate-linked, skeptical, personal storytelling, human impacts, institutional response, disaster background and event facts." />
     <link rel="stylesheet" href="../style.css" />
     <style>
       :root {
@@ -51,7 +51,7 @@
       <header>
         <p class="back"><a href="../">&larr; Davide Taglialatela</a><span class="sep">&middot;</span><a href="./">News map</a><span class="sep">&middot;</span><a href="investors.html">Investors and firms map</a></p>
         <h1 class="map-title">What disaster coverage talks about</h1>
-        <p class="map-sub">Every disaster article in the corpus is assigned to one category, in a fixed order of precedence: a skeptical treatment of the disaster&ndash;climate connection, a climate link, personal storytelling, human impacts, institutional response, disaster background and risk, or only the facts of the event. The chart shows the yearly composition of local and of national disaster coverage, 2010&ndash;2024.</p>
+        <p class="map-sub">Every disaster article in the corpus is assigned to one category, in a fixed order of precedence: a skeptical treatment of the disaster&ndash;climate connection, a climate link, episodic storytelling, human impacts, institutional response, disaster background and risk, or only the facts of the event. The chart shows the yearly composition of local and of national disaster coverage, 2000&ndash;2024.</p>
       </header>
 
       <div class="controls">
@@ -65,8 +65,8 @@
         <div class="control">
           <span class="control-label">Display</span>
           <div class="seg" role="group" aria-label="Display">
-            <button type="button" data-view="stack" aria-pressed="true">Stacked shares</button>
-            <button type="button" data-view="lines" aria-pressed="false">Lines</button>
+            <button type="button" data-view="lines" aria-pressed="true">Lines</button>
+            <button type="button" data-view="stack" aria-pressed="false">Stacked shares</button>
           </div>
         </div>
       </div>
@@ -81,8 +81,8 @@
       <div class="tbl" id="tbl"></div>
 
       <div class="notes">
-        <p><strong>Categories.</strong> An article is <em>climate-linked</em> when it explicitly connects the event to climate change or has substantive sections on both; a <em>skeptical</em> treatment is a stance and takes precedence in the display. <em>Personal storytelling</em> tells the event through individuals; <em>human impacts</em> report victims and damage to homes; <em>institutional response</em> covers relief, agencies and insurance; <em>disaster background and risk</em> discusses hazards as a class, trends or projections; <em>event facts</em> only reports the specific event. Categories are mutually exclusive.</p>
-        <p><strong>Corpus.</strong> 782,714 disaster articles published 2010&ndash;2024 by U.S. local and national outlets, each publication instance counted once, classified paragraph by paragraph with the fine-tuned language models behind the climate interpretation measure. Shares are computed within outlet scope and year; local and national outlets cover different disasters, so the contrast is descriptive.</p>
+        <p><strong>Categories.</strong> An article is <em>climate-linked</em> when it explicitly connects the event to climate change or has substantive sections on both; a <em>skeptical</em> treatment is a stance and takes precedence in the display. <em>Episodic storytelling</em> tells the event through individuals&rsquo; stories; <em>human impacts</em> report victims and damage to homes as the central topic, without a protagonist; <em>institutional response</em> covers relief, agencies and insurance; <em>disaster background and risk</em> discusses hazards as a class, trends or projections; <em>event facts</em> only reports the specific event. Categories are mutually exclusive and assigned in that order, so an article with both a climate link and background blocks counts as climate-linked; this is why the background category stays small.</p>
+        <p><strong>Corpus.</strong> 1,434,459 disaster articles published 2000&ndash;2024 by U.S. local and national outlets, each publication instance counted once, classified paragraph by paragraph with the fine-tuned language models behind the climate interpretation measure. Shares are computed within outlet scope and year; local and national outlets cover different disasters, so the contrast is descriptive.</p>
         <p>From <a href="../files/JMP_Davide_Taglialatela.pdf">What a Disaster Means: Attention, Interpretation, and the Demand for Green Assets</a>.</p>
       </div>
     </div>
@@ -95,13 +95,13 @@
         { key: "Disaster background and risk", v: "--c-background", label: "Disaster background and risk" },
         { key: "Institutional response", v: "--c-institutional", label: "Institutional response" },
         { key: "Human impacts", v: "--c-human", label: "Human impacts" },
-        { key: "Personal storytelling", v: "--c-personal", label: "Personal storytelling" },
+        { key: "Personal storytelling", v: "--c-personal", label: "Episodic storytelling" },
         { key: "Climate-linked", v: "--c-climate", label: "Climate-linked" },
         { key: "Skeptical", v: "--c-skeptical", label: "Skeptical of the climate link" }
       ];
       var css = getComputedStyle(document.documentElement);
       CATS.forEach(function (c) { c.color = css.getPropertyValue(c.v).trim(); });
-      var state = { scope: "Local", view: "stack" };
+      var state = { scope: "Local", view: "lines" };
       var data = {}, years = [];
       var svg = d3.select("#chart"), box = document.getElementById("chart-box"), tooltip = document.getElementById("tooltip");
       var W = 960, H = 460, M = { top: 18, right: 205, bottom: 34, left: 44 };
