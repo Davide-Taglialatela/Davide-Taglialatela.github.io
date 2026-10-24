@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Disaster coverage map &middot; Davide Taglialatela</title>
+    <meta name="description" content="Interactive county map of local disaster coverage in the United States, 2015-2024: attention and climate interpretation by quintile, with the disaster episodes that hit each county." />
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      :root {
+        --q1: #F6CFD5; --q2: #E99AA6; --q3: #D5637A; --q4: #B2273F; --q5: #6E1020;
+        --nodata: #ececec;
+        --h-flood: #2B6CB0; --h-hurricane: #6D28D9; --h-wildfire: #D97706; --h-coastal: #047857;
+      }
+      .wrapper.map-wrapper { max-width: 1000px; padding-top: 48px; }
+      .map-wrapper header { margin-bottom: 28px; }
+      .back { font-size: 13.5px; color: var(--muted); margin: 0 0 18px; }
+      .map-title { font-family: Georgia, "Times New Roman", Times, serif; font-size: 28px; font-weight: 500; margin: 0 0 8px; line-height: 1.25; }
+      .map-sub { margin: 0; font-size: 15px; color: var(--muted); max-width: 760px; }
+      .controls { display: flex; flex-wrap: wrap; gap: 18px 36px; align-items: flex-start; padding: 16px 18px; background: var(--panel); border-radius: 6px; margin: 22px 0 14px; font-size: 13.5px; }
+      .control { display: flex; flex-direction: column; gap: 8px; }
+      .control-label { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+      .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; background: #fff; }
+      .seg button { font-family: inherit; font-size: 13.5px; padding: 6px 12px; border: none; background: #fff; color: var(--text); cursor: pointer; }
+      .seg button + button { border-left: 1px solid var(--rule); }
+      .seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+      .year-row { display: flex; align-items: center; gap: 12px; }
+      .year-row input[type="range"] { width: 260px; accent-color: var(--accent); margin: 0; }
+      .year-label { font-size: 15px; font-weight: 600; min-width: 150px; }
+      .play { font-family: inherit; font-size: 12.5px; background: #fff; border: 1px solid var(--rule); border-radius: 4px; padding: 4px 10px; cursor: pointer; color: var(--text); }
+      .play:hover { background: #ededed; }
+      .ticks { display: flex; justify-content: space-between; width: 260px; font-size: 10.5px; color: var(--muted); margin-top: -4px; }
+      .hazards { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+      .hazards label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+      .hazards input { accent-color: var(--accent); margin: 0; }
+      .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 2px; border: 1.5px solid; background-image: repeating-linear-gradient(135deg, transparent 0 2px, currentColor 2px 3.5px); }
+      .map-box { position: relative; border: 1px solid var(--rule); border-radius: 4px; background: #fff; }
+      .map-box canvas { display: block; width: 100%; height: auto; }
+      .tooltip { position: absolute; pointer-events: none; background: #fff; border: 1px solid var(--rule); border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 8px 10px; font-size: 12.5px; line-height: 1.45; max-width: 260px; display: none; z-index: 2; }
+      .tooltip .tt-name { font-weight: 600; }
+      .tooltip .tt-muted { color: var(--muted); }
+      .tooltip ul { margin: 4px 0 0; padding-left: 14px; }
+      .loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; }
+      .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; font-size: 12.5px; color: var(--muted); margin: 12px 0 0; }
+      .legend .lg-title { font-weight: 600; color: var(--text); }
+      .legend .bins { display: inline-flex; align-items: center; gap: 4px; }
+      .legend .bin { width: 26px; height: 12px; border-radius: 2px; }
+      .legend .nd { width: 14px; height: 12px; border-radius: 2px; background: var(--nodata); border: 1px solid #ddd; }
+      .summary { font-size: 13px; color: var(--muted); margin: 8px 0 0; min-height: 1.5em; }
+      .notes { margin-top: 28px; font-size: 13.5px; line-height: 1.6; color: #444; max-width: 820px; }
+      .notes p { margin: 0 0 10px; }
+      @media (max-width: 560px) {
+        .year-row { flex-wrap: wrap; }
+        .year-row input[type="range"], .ticks { width: 200px; }
+        .year-label { min-width: 0; font-size: 14px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper map-wrapper">
+      <header>
+        <p class="back"><a href="../">&larr; Davide Taglialatela</a></p>
+        <h1 class="map-title">What a disaster means, county by county</h1>
+        <p class="map-sub">Local news coverage of disasters in the United States, 2015&ndash;2024: how much attention a county&rsquo;s local outlets gave to disasters, and how much of that coverage interpreted the events as climate change. Counties are shaded by quintile within each year. Tick a hazard to see the disaster episodes that hit each county.</p>
+      </header>
+
+      <div class="controls" id="controls">
+        <div class="control">
+          <span class="control-label">Measure</span>
+          <div class="seg" role="group" aria-label="Measure">
+            <button type="button" id="btn-interp" aria-pressed="true">Climate interpretation</button>
+            <button type="button" id="btn-attn" aria-pressed="false">Attention</button>
+          </div>
+        </div>
+        <div class="control">
+          <span class="control-label">Year</span>
+          <div class="year-row">
+            <input type="range" id="year" min="0" max="10" step="1" value="0" aria-label="Year" />
+            <span class="year-label" id="year-label">2015&ndash;2024 average</span>
+            <button type="button" class="play" id="play" aria-label="Play through the years">&#9654; Play</button>
+          </div>
+          <div class="ticks"><span>Avg.</span><span>2015</span><span>2017</span><span>2019</span><span>2021</span><span>2023</span></div>
+        </div>
+        <div class="control">
+          <span class="control-label">Disaster episodes</span>
+          <div class="hazards" id="hazards">
+            <label><input type="checkbox" value="flood" /><span class="swatch" style="color: var(--h-flood)"></span>Flood</label>
+            <label><input type="checkbox" value="hurricane" /><span class="swatch" style="color: var(--h-hurricane)"></span>Hurricane</label>
+            <label><input type="checkbox" value="wildfire" /><span class="swatch" style="color: var(--h-wildfire)"></span>Wildfire</label>
+            <label><input type="checkbox" value="coastal" /><span class="swatch" style="color: var(--h-coastal)"></span>Coastal</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-box" id="map-box">
+        <canvas id="map" width="1000" height="620" aria-label="County map of the United States"></canvas>
+        <div class="tooltip" id="tooltip" role="status"></div>
+        <div class="loading" id="loading">Loading map&hellip;</div>
+      </div>
+
+      <div class="legend" id="legend">
+        <span class="lg-title" id="legend-title">Climate interpretation, quintile within year</span>
+        <span class="bins">
+          <span>Lowest</span>
+          <span class="bin" style="background: var(--q1)"></span><span class="bin" style="background: var(--q2)"></span><span class="bin" style="background: var(--q3)"></span><span class="bin" style="background: var(--q4)"></span><span class="bin" style="background: var(--q5)"></span>
+          <span>Highest</span>
+        </span>
+        <span class="bins"><span class="nd"></span><span>No local coverage in the sample</span></span>
+      </div>
+      <p class="summary" id="summary"></p>
+
+      <div class="notes">
+        <p><strong>What is shown.</strong> <em>Attention</em> is the circulation-weighted volume of disaster coverage by a county&rsquo;s local newspapers in the year. <em>Climate interpretation</em> is the share of that local disaster coverage that interprets the event as a manifestation of climate change, classified article by article with fine-tuned language models and averaged across the county&rsquo;s outlets with circulation weights. Each year, counties are ranked and split into five equal groups; the map shows the group, not the underlying value. The &ldquo;average&rdquo; view ranks counties on their 2015&ndash;2024 mean. Grey counties have no local newspaper coverage in the sample.</p>
+        <p><strong>Disaster episodes</strong> are the paper&rsquo;s sample of floods, hurricanes, wildfires and coastal events, built from the NOAA Storm Events Database and retained when in the top 15 percent of an index of losses, fatalities and injuries. A county is marked as hit when NOAA records positive damage, deaths or injuries there for the episode. Episodes are dated by their start.</p>
+        <p>From <a href="../files/JMP_Davide_Taglialatela.pdf">What a Disaster Means: Attention, Interpretation, and the Demand for Green Assets</a>. The county-year dataset underlying the map is not yet released; only quintiles are shown here.</p>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+    <script>
+    (function () {
+      var YEARS = [0, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+      var HAZARDS = ["flood", "hurricane", "wildfire", "coastal"];
+      var HAZARD_LABEL = { flood: "Flood", hurricane: "Hurricane", wildfire: "Wildfire", coastal: "Coastal" };
+      var css = getComputedStyle(document.documentElement);
+      var RAMP = ["--q1", "--q2", "--q3", "--q4", "--q5"].map(function (v) { return css.getPropertyValue(v).trim(); });
+      var NODATA = css.getPropertyValue("--nodata").trim();
+      var HCOL = {};
+      HAZARDS.forEach(function (h) { HCOL[h] = css.getPropertyValue("--h-" + h).trim(); });
+
+      var state = { measure: "interp", yearIdx: 0, hazards: {}, playing: null };
+      HAZARDS.forEach(function (h) { state.hazards[h] = false; });
+
+      var canvas = document.getElementById("map");
+      var box = document.getElementById("map-box");
+      var tooltip = document.getElementById("tooltip");
+      var ctx = canvas.getContext("2d");
+      var W = 1000, H = 620, dpr = Math.max(1, window.devicePixelRatio || 1);
+
+      var counties = [], stateMesh = null, countyMesh = null, stateName = {};
+      var paths = [], bboxes = [], byFips = {};
+      var measure = {}, episodes = {}, epByYearFips = {};
+      var hatch = {};
+      var hovered = -1;
+
+      function setupCanvas() {
+        var cssW = box.clientWidth || W;
+        W = cssW; H = Math.round(cssW * 0.62);
+        dpr = Math.max(1, window.devicePixelRatio || 1);
+        canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+        canvas.style.height = H + "px";
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function buildPaths() {
+        var fc = { type: "FeatureCollection", features: counties };
+        var projection = d3.geoAlbers().fitExtent([[6, 6], [W - 6, H - 6]], fc);
+        var pathGen = d3.geoPath(projection);
+        paths = []; bboxes = [];
+        counties.forEach(function (f, i) {
+          var p = new Path2D();
+          d3.geoPath(projection, p)(f);
+          paths.push(p);
+          bboxes.push(pathGen.bounds(f));
+        });
+        stateMesh = new Path2D(); d3.geoPath(projection, stateMesh)(stateMeshGeo);
+        countyMesh = new Path2D(); d3.geoPath(projection, countyMesh)(countyMeshGeo);
+        hatch = {};
+        HAZARDS.forEach(function (h) { hatch[h] = makeHatch(HCOL[h]); });
+      }
+
+      function makeHatch(color) {
+        var size = 7, c = document.createElement("canvas");
+        c.width = c.height = size * dpr;
+        var g = c.getContext("2d");
+        g.scale(dpr, dpr);
+        g.strokeStyle = color; g.lineWidth = 1.6; g.lineCap = "square";
+        g.beginPath();
+        g.moveTo(-1, size + 1); g.lineTo(size + 1, -1);
+        g.moveTo(-1, 1); g.lineTo(1, -1);
+        g.moveTo(size - 1, size + 1); g.lineTo(size + 1, size - 1);
+        g.stroke();
+        var p = ctx.createPattern(c, "repeat");
+        if (p && p.setTransform && window.DOMMatrix) { p.setTransform(new DOMMatrix().scale(1 / dpr)); }
+        return p;
+      }
+
+      var stateMeshGeo, countyMeshGeo;
+
+      function yearValue() { return YEARS[state.yearIdx]; }
+
+      function draw() {
+        var yr = yearValue(), m = measure[yr] || {}, key = state.measure;
+        ctx.clearRect(0, 0, W, H);
+        counties.forEach(function (f, i) {
+          var rec = m[f.id], b = rec ? rec[key] : 0;
+          ctx.fillStyle = b ? RAMP[b - 1] : NODATA;
+          ctx.fill(paths[i]);
+        });
+        ctx.lineJoin = "round";
+        ctx.strokeStyle = "rgba(255,255,255,0.7)"; ctx.lineWidth = 0.4; ctx.stroke(countyMesh);
+        ctx.strokeStyle = "#8a8a8a"; ctx.lineWidth = 0.8; ctx.stroke(stateMesh);
+        var active = HAZARDS.filter(function (h) { return state.hazards[h]; });
+        if (active.length) {
+          var ep = epByYearFips[yr] || {};
+          counties.forEach(function (f, i) {
+            var list = ep[f.id]; if (!list) return;
+            var shown = {};
+            list.forEach(function (e) { if (state.hazards[e.hazard]) shown[e.hazard] = true; });
+            var hs = HAZARDS.filter(function (h) { return shown[h]; });
+            if (!hs.length) return;
+            ctx.save(); ctx.clip(paths[i]);
+            ctx.fillStyle = hatch[hs[0]]; ctx.fillRect(bboxes[i][0][0] - 1, bboxes[i][0][1] - 1, bboxes[i][1][0] - bboxes[i][0][0] + 2, bboxes[i][1][1] - bboxes[i][0][1] + 2);
+            ctx.restore();
+            hs.forEach(function (h, k) { ctx.strokeStyle = HCOL[h]; ctx.lineWidth = 1.3 + 0.9 * (hs.length - 1 - k); ctx.stroke(paths[i]); });
+          });
+        }
+        if (hovered >= 0) { ctx.strokeStyle = "#1a1a1a"; ctx.lineWidth = 1.6; ctx.stroke(paths[hovered]); }
+        updateSummary();
+      }
+
+      function updateSummary() {
+        var yr = yearValue(), m = measure[yr] || {}, key = state.measure, n = 0;
+        for (var k in m) { if (m[k][key]) n++; }
+        var txt = "Counties with local coverage" + (yr ? " in " + yr : ", 2015–2024") + ": " + n.toLocaleString() + ".";
+        var active = HAZARDS.filter(function (h) { return state.hazards[h]; });
+        if (active.length) {
+          var eps = episodes[yr] || [], parts = [], total = 0, hit = {};
+          active.forEach(function (h) {
+            var es = eps.filter(function (e) { return e.hazard === h; });
+            if (es.length) { parts.push(es.length + " " + HAZARD_LABEL[h].toLowerCase()); total += es.length; es.forEach(function (e) { e.fips.forEach(function (f) { hit[f] = true; }); }); }
+          });
+          txt += " Episodes shown" + (yr ? "" : " (all years)") + ": " + total + (parts.length ? " (" + parts.join(", ") + ")" : "") + ", hitting " + Object.keys(hit).length.toLocaleString() + " counties.";
+        }
+        document.getElementById("summary").textContent = txt;
+      }
+
+      function setYear(idx) {
+        state.yearIdx = Math.max(0, Math.min(YEARS.length - 1, idx));
+        document.getElementById("year").value = state.yearIdx;
+        var yr = yearValue();
+        document.getElementById("year-label").innerHTML = yr ? String(yr) : "2015&ndash;2024 average";
+        draw();
+      }
+
+      function setMeasure(mkey) {
+        state.measure = mkey;
+        document.getElementById("btn-interp").setAttribute("aria-pressed", mkey === "interp" ? "true" : "false");
+        document.getElementById("btn-attn").setAttribute("aria-pressed", mkey === "attn" ? "true" : "false");
+        document.getElementById("legend-title").textContent = (mkey === "interp" ? "Climate interpretation" : "Attention") + ", quintile within year";
+        draw();
+      }
+
+      function hitTest(x, y) {
+        if (hovered >= 0) { var b = bboxes[hovered]; if (x >= b[0][0] && x <= b[1][0] && y >= b[0][1] && y <= b[1][1] && ctx.isPointInPath(paths[hovered], x * dpr, y * dpr)) return hovered; }
+        for (var i = 0; i < paths.length; i++) {
+          var bb = bboxes[i];
+          if (x < bb[0][0] || x > bb[1][0] || y < bb[0][1] || y > bb[1][1]) continue;
+          if (ctx.isPointInPath(paths[i], x * dpr, y * dpr)) return i;
+        }
+        return -1;
+      }
+
+      function ordinal(b) { return ["lowest fifth", "second fifth", "middle fifth", "fourth fifth", "highest fifth"][b - 1]; }
+
+      function showTooltip(i, px, py) {
+        var f = counties[i], yr = yearValue(), rec = (measure[yr] || {})[f.id];
+        var st = stateName[f.id.slice(0, 2)] || "";
+        var html = '<div class="tt-name">' + f.properties.name + (st ? ", " + st : "") + "</div>";
+        html += '<div class="tt-muted">' + (yr ? yr : "2015–2024 average") + "</div>";
+        if (rec && (rec.interp || rec.attn)) {
+          html += "<div>Climate interpretation: " + (rec.interp ? "<strong>" + ordinal(rec.interp) + "</strong>" : "no coverage to interpret") + "</div>";
+          html += "<div>Attention: " + (rec.attn ? "<strong>" + ordinal(rec.attn) + "</strong>" : "—") + "</div>";
+        } else {
+          html += "<div>No local coverage in the sample.</div>";
+        }
+        var list = (epByYearFips[yr] || {})[f.id];
+        if (list) {
+          var vis = list.filter(function (e) { return state.hazards[e.hazard]; });
+          if (vis.length) {
+            html += '<div class="tt-muted" style="margin-top:4px">Hit by ' + vis.length + " episode" + (vis.length > 1 ? "s" : "") + ":</div><ul>";
+            vis.slice(0, 5).forEach(function (e) { html += "<li>" + HAZARD_LABEL[e.hazard] + ", from " + e.start + "</li>"; });
+            if (vis.length > 5) html += "<li>&hellip;</li>";
+            html += "</ul>";
+          }
+        }
+        tooltip.innerHTML = html;
+        tooltip.style.display = "block";
+        var bw = box.clientWidth, tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+        var left = px + 14, top = py + 14;
+        if (left + tw > bw - 4) left = px - tw - 14;
+        if (top + th > H - 4) top = py - th - 14;
+        tooltip.style.left = Math.max(4, left) + "px"; tooltip.style.top = Math.max(4, top) + "px";
+      }
+
+      function hideTooltip() { tooltip.style.display = "none"; }
+
+      function onMove(ev) {
+        var r = canvas.getBoundingClientRect();
+        var x = (ev.clientX - r.left) * (W / r.width), y = (ev.clientY - r.top) * (H / r.height);
+        var i = hitTest(x, y);
+        if (i !== hovered) { hovered = i; draw(); }
+        if (i >= 0) showTooltip(i, ev.clientX - r.left, ev.clientY - r.top); else hideTooltip();
+      }
+
+      canvas.addEventListener("mousemove", onMove);
+      canvas.addEventListener("mouseleave", function () { hovered = -1; hideTooltip(); draw(); });
+      canvas.addEventListener("click", onMove);
+
+      document.getElementById("btn-interp").addEventListener("click", function () { setMeasure("interp"); });
+      document.getElementById("btn-attn").addEventListener("click", function () { setMeasure("attn"); });
+      document.getElementById("year").addEventListener("input", function (e) { stopPlay(); setYear(+e.target.value); });
+      Array.prototype.forEach.call(document.querySelectorAll("#hazards input"), function (cb) {
+        cb.addEventListener("change", function () { state.hazards[cb.value] = cb.checked; draw(); });
+      });
+      var playBtn = document.getElementById("play");
+      function stopPlay() { if (state.playing) { clearInterval(state.playing); state.playing = null; playBtn.innerHTML = "&#9654; Play"; } }
+      playBtn.addEventListener("click", function () {
+        if (state.playing) { stopPlay(); return; }
+        playBtn.innerHTML = "&#10074;&#10074; Pause";
+        if (state.yearIdx >= YEARS.length - 1) setYear(1); else setYear(state.yearIdx === 0 ? 1 : state.yearIdx);
+        state.playing = setInterval(function () {
+          if (state.yearIdx >= YEARS.length - 1) { stopPlay(); return; }
+          setYear(state.yearIdx + 1);
+        }, 1100);
+      });
+
+      var resizeTimer = null;
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { setupCanvas(); buildPaths(); draw(); }, 120);
+      });
+
+      Promise.all([
+        d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/counties-10m.json"),
+        d3.csv("data_measure.csv"),
+        d3.csv("data_episodes.csv")
+      ]).then(function (res) {
+        var us = res[0];
+        var skip = { "02": 1, "15": 1, "60": 1, "66": 1, "69": 1, "72": 1, "78": 1 };
+        var cobj = { type: "GeometryCollection", geometries: us.objects.counties.geometries.filter(function (g) { return !skip[String(g.id).slice(0, 2)]; }) };
+        var sobj = { type: "GeometryCollection", geometries: us.objects.states.geometries.filter(function (g) { return !skip[String(g.id)]; }) };
+        counties = topojson.feature(us, cobj).features;
+        counties.forEach(function (f, i) { byFips[f.id] = i; });
+        us.objects.states.geometries.forEach(function (g) { stateName[String(g.id)] = g.properties.name; });
+        stateMeshGeo = topojson.mesh(us, sobj, function (a, b) { return a !== b; });
+        countyMeshGeo = topojson.mesh(us, cobj, function (a, b) { return a !== b; });
+
+        res[1].forEach(function (r) {
+          var yr = +r.year; if (!measure[yr]) measure[yr] = {};
+          measure[yr][r.fips] = { attn: r.attn_q ? +r.attn_q : 0, interp: r.interp_q ? +r.interp_q : 0 };
+        });
+        var epIndex = {};
+        res[2].forEach(function (r) {
+          var yr = +r.year, k = r.episode_id;
+          if (!epIndex[k]) { epIndex[k] = { id: k, year: yr, hazard: r.hazard, start: r.start, fips: [] }; }
+          epIndex[k].fips.push(r.fips);
+        });
+        Object.keys(epIndex).forEach(function (k) {
+          var e = epIndex[k];
+          [e.year, 0].forEach(function (yr) {
+            if (!episodes[yr]) episodes[yr] = [];
+            episodes[yr].push(e);
+            if (!epByYearFips[yr]) epByYearFips[yr] = {};
+            e.fips.forEach(function (f) { if (!epByYearFips[yr][f]) epByYearFips[yr][f] = []; epByYearFips[yr][f].push(e); });
+          });
+        });
+        Object.keys(episodes).forEach(function (yr) { episodes[yr].sort(function (a, b) { return a.start < b.start ? -1 : a.start > b.start ? 1 : 0; }); });
+
+        document.getElementById("loading").style.display = "none";
+        setupCanvas(); buildPaths(); setMeasure("interp"); setYear(0);
+      }).catch(function (err) {
+        document.getElementById("loading").textContent = "The map could not be loaded (" + (err && err.message ? err.message : err) + ").";
+      });
+    })();
+    </script>
+  </body>
+</html>

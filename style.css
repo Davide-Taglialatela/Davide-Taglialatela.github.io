@@ -239,3 +239,12 @@ details.abstract p { margin-top: 0.5rem; }
   border: none; background: var(--rule); margin: 0 3px; padding: 0; cursor: pointer;
 }
 .carousel-dots .dot.active { background: var(--accent); }
+
+/* interactive map link under the carousel */
+.map-link {
+  margin: 18px 0 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.map-link a { font-weight: 600; }
