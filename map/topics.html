@@ -101,12 +101,13 @@
     (function () {
       var css = getComputedStyle(document.documentElement);
       var pct = d3.format(".0%"), pct1 = d3.format(".1%");
-      var W = 960, H = 460, M = { top: 18, right: 205, bottom: 34, left: 44 };
+      var W = 960, H = 460;
       var scope = "Local", charts = [];
 
       function makeChart(opts) {
         var CATS = opts.cats.map(function (c) { c.color = css.getPropertyValue(c.v).trim(); return c; });
         var DRAWN = CATS.filter(function (c) { return !c.residual; });
+        var M = { top: 18, right: opts.right || 205, bottom: 34, left: 44 };
         var svg = d3.select("#" + opts.svg), box = document.getElementById(opts.box), tooltip = document.getElementById(opts.tooltip);
         var data = {}, years = [];
         function rows() { return years.map(function (y) { var r = data[scope][y], o = { year: y, n: r.n }; CATS.forEach(function (c) { o[c.key] = r.s[c.key] || 0; }); return o; }); }
@@ -176,7 +177,7 @@
       }));
       charts.push(makeChart({
         svg: "chart2", box: "chart-box2", tooltip: "tooltip2", legend: "legend2", summary: "summary2", tbl: "tbl2", tblBtn: "tbl-btn2",
-        csv: "data_climate.csv", highlight: "Disaster linked to climate change", unit: "climate articles",
+        csv: "data_climate.csv", highlight: "Disaster linked to climate change", unit: "climate articles", right: 300,
         cats: [
           { key: "Climate change in general", v: "--g-general", label: "Climate change in general" },
           { key: "Preparedness, disaster policy and insurance", v: "--g-prep", label: "Preparedness, disaster policy and insurance" },
