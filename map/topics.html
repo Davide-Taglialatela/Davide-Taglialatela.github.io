@@ -112,8 +112,9 @@
       function draw() {
         svg.selectAll("*").remove();
         var rs = rows();
+        var DRAWN = state.view === "lines" ? CATS.filter(function (c) { return c.key !== "Event facts"; }) : CATS;
         var x = d3.scaleLinear().domain(d3.extent(years)).range([M.left, W - M.right]);
-        var y = d3.scaleLinear().domain([0, state.view === "stack" ? 1 : Math.min(1, (d3.max(rs, function (r) { return d3.max(CATS, function (c) { return r[c.key]; }); }) || 1) * 1.08)]).range([H - M.bottom, M.top]);
+        var y = d3.scaleLinear().domain([0, state.view === "stack" ? 1 : Math.min(1, (d3.max(rs, function (r) { return d3.max(DRAWN, function (c) { return r[c.key]; }); }) || 1) * 1.08)]).range([H - M.bottom, M.top]);
         var g = svg.append("g");
         g.append("g").attr("transform", "translate(0," + (H - M.bottom) + ")").call(d3.axisBottom(x).ticks(years.length).tickFormat(d3.format("d")).tickSize(4)).call(function (s) { s.select(".domain").attr("stroke", "#c8c8c8"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); s.selectAll("line").attr("stroke", "#c8c8c8"); });
         g.append("g").attr("transform", "translate(" + M.left + ",0)").call(d3.axisLeft(y).ticks(5).tickFormat(pct).tickSize(-(W - M.left - M.right))).call(function (s) { s.select(".domain").remove(); s.selectAll("line").attr("stroke", "#ececec"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); });
@@ -125,7 +126,7 @@
           stack.forEach(function (layer, i) { var last = layer[layer.length - 1]; labelData.push({ cat: CATS[i], y: (y(last[0]) + y(last[1])) / 2, share: last.data[CATS[i].key] }); });
         } else {
           var line = d3.line().x(function (d) { return x(d.year); }).y(function (d) { return y(d.v); }).curve(d3.curveMonotoneX);
-          CATS.forEach(function (c) {
+          DRAWN.forEach(function (c) {
             var pts = rs.map(function (r) { return { year: r.year, v: r[c.key] }; });
             g.append("path").attr("fill", "none").attr("stroke", c.color).attr("stroke-width", c.key === "Climate-linked" ? 3 : 2).attr("d", line(pts));
             g.selectAll(null).data(pts).enter().append("circle").attr("cx", function (d) { return x(d.year); }).attr("cy", function (d) { return y(d.v); }).attr("r", 3.2).attr("fill", "#fff").attr("stroke", c.color).attr("stroke-width", 1.5);
@@ -150,7 +151,7 @@
             tooltip.style.left = Math.max(4, left) + "px"; tooltip.style.top = top + "px";
           })
           .on("mouseleave", function () { hover.style("display", "none"); tooltip.style.display = "none"; });
-        document.getElementById("legend").innerHTML = CATS.slice().reverse().map(function (c) { return '<span class="item"><span class="sw" style="background:' + c.color + '"></span>' + (c.key === "Climate-linked" ? "<strong>" + c.label + "</strong>" : c.label) + "</span>"; }).join("");
+        document.getElementById("legend").innerHTML = DRAWN.slice().reverse().map(function (c) { return '<span class="item"><span class="sw" style="background:' + c.color + '"></span>' + (c.key === "Climate-linked" ? "<strong>" + c.label + "</strong>" : c.label) + "</span>"; }).join("");
         var first = data[state.scope][years[0]], last = data[state.scope][years[years.length - 1]];
         document.getElementById("summary").textContent = state.scope + " outlets: climate-linked share " + pct(first.s["Climate-linked"] || 0) + " in " + years[0] + ", " + pct(last.s["Climate-linked"] || 0) + " in " + years[years.length - 1] + "; " + d3.sum(years, function (yv) { return data[state.scope][yv].n; }).toLocaleString() + " disaster articles over the period.";
         var t = '<table><tr><th>Year</th><th>Articles</th>' + CATS.slice().reverse().map(function (c) { return "<th>" + c.label + "</th>"; }).join("") + "</tr>";
