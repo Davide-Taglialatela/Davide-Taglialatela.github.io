@@ -62,17 +62,10 @@
             <button type="button" data-scope="National" aria-pressed="false">National</button>
           </div>
         </div>
-        <div class="control">
-          <span class="control-label">Display</span>
-          <div class="seg" role="group" aria-label="Display">
-            <button type="button" data-view="lines" aria-pressed="true">Lines</button>
-            <button type="button" data-view="stack" aria-pressed="false">Stacked shares</button>
-          </div>
-        </div>
       </div>
 
       <div class="chart-box" id="chart-box">
-        <svg id="chart" viewBox="0 0 960 460" role="img" aria-label="Yearly composition of disaster coverage by category"></svg>
+        <svg id="chart" viewBox="0 0 960 460" role="img" aria-label="Yearly shares of disaster coverage by category"></svg>
         <div class="tooltip" id="tooltip" role="status"></div>
       </div>
       <div class="legend" id="legend"></div>
@@ -101,7 +94,7 @@
       ];
       var css = getComputedStyle(document.documentElement);
       CATS.forEach(function (c) { c.color = css.getPropertyValue(c.v).trim(); });
-      var state = { scope: "Local", view: "lines" };
+      var state = { scope: "Local" };
       var data = {}, years = [];
       var svg = d3.select("#chart"), box = document.getElementById("chart-box"), tooltip = document.getElementById("tooltip");
       var W = 960, H = 460, M = { top: 18, right: 205, bottom: 34, left: 44 };
@@ -112,27 +105,20 @@
       function draw() {
         svg.selectAll("*").remove();
         var rs = rows();
-        var DRAWN = state.view === "lines" ? CATS.filter(function (c) { return c.key !== "Event facts"; }) : CATS;
+        var DRAWN = CATS.filter(function (c) { return c.key !== "Event facts"; });
         var x = d3.scaleLinear().domain(d3.extent(years)).range([M.left, W - M.right]);
-        var y = d3.scaleLinear().domain([0, state.view === "stack" ? 1 : Math.min(1, (d3.max(rs, function (r) { return d3.max(DRAWN, function (c) { return r[c.key]; }); }) || 1) * 1.08)]).range([H - M.bottom, M.top]);
+        var y = d3.scaleLinear().domain([0, Math.min(1, (d3.max(rs, function (r) { return d3.max(DRAWN, function (c) { return r[c.key]; }); }) || 1) * 1.08)]).range([H - M.bottom, M.top]);
         var g = svg.append("g");
         g.append("g").attr("transform", "translate(0," + (H - M.bottom) + ")").call(d3.axisBottom(x).ticks(years.length).tickFormat(d3.format("d")).tickSize(4)).call(function (s) { s.select(".domain").attr("stroke", "#c8c8c8"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); s.selectAll("line").attr("stroke", "#c8c8c8"); });
         g.append("g").attr("transform", "translate(" + M.left + ",0)").call(d3.axisLeft(y).ticks(5).tickFormat(pct).tickSize(-(W - M.left - M.right))).call(function (s) { s.select(".domain").remove(); s.selectAll("line").attr("stroke", "#ececec"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); });
         var labelData = [];
-        if (state.view === "stack") {
-          var stack = d3.stack().keys(CATS.map(function (c) { return c.key; }))(rs);
-          var area = d3.area().x(function (d) { return x(d.data.year); }).y0(function (d) { return y(d[0]); }).y1(function (d) { return y(d[1]); }).curve(d3.curveMonotoneX);
-          g.selectAll("path.layer").data(stack).enter().append("path").attr("class", "layer").attr("fill", function (d, i) { return CATS[i].color; }).attr("stroke", "#fff").attr("stroke-width", 1).attr("d", area);
-          stack.forEach(function (layer, i) { var last = layer[layer.length - 1]; labelData.push({ cat: CATS[i], y: (y(last[0]) + y(last[1])) / 2, share: last.data[CATS[i].key] }); });
-        } else {
-          var line = d3.line().x(function (d) { return x(d.year); }).y(function (d) { return y(d.v); }).curve(d3.curveMonotoneX);
-          DRAWN.forEach(function (c) {
-            var pts = rs.map(function (r) { return { year: r.year, v: r[c.key] }; });
-            g.append("path").attr("fill", "none").attr("stroke", c.color).attr("stroke-width", c.key === "Climate-linked" ? 3 : 2).attr("d", line(pts));
-            g.selectAll(null).data(pts).enter().append("circle").attr("cx", function (d) { return x(d.year); }).attr("cy", function (d) { return y(d.v); }).attr("r", 3.2).attr("fill", "#fff").attr("stroke", c.color).attr("stroke-width", 1.5);
-            labelData.push({ cat: c, y: y(pts[pts.length - 1].v), share: pts[pts.length - 1].v });
-          });
-        }
+        var line = d3.line().x(function (d) { return x(d.year); }).y(function (d) { return y(d.v); }).curve(d3.curveMonotoneX);
+        DRAWN.forEach(function (c) {
+          var pts = rs.map(function (r) { return { year: r.year, v: r[c.key] }; });
+          g.append("path").attr("fill", "none").attr("stroke", c.color).attr("stroke-width", c.key === "Climate-linked" ? 3 : 2).attr("d", line(pts));
+          g.selectAll(null).data(pts).enter().append("circle").attr("cx", function (d) { return x(d.year); }).attr("cy", function (d) { return y(d.v); }).attr("r", 3.2).attr("fill", "#fff").attr("stroke", c.color).attr("stroke-width", 1.5);
+          labelData.push({ cat: c, y: y(pts[pts.length - 1].v), share: pts[pts.length - 1].v });
+        });
         labelData.sort(function (a, b) { return a.y - b.y; });
         for (var i = 1; i < labelData.length; i++) { if (labelData[i].y - labelData[i - 1].y < 14) labelData[i].y = labelData[i - 1].y + 14; }
         g.selectAll("text.lbl").data(labelData).enter().append("text").attr("class", "lbl").attr("x", W - M.right + 10).attr("y", function (d) { return d.y + 4; }).attr("font-size", 12).attr("fill", "#1a1a1a").text(function (d) { return d.cat.label + " " + pct(d.share); });
@@ -160,7 +146,6 @@
       }
 
       Array.prototype.forEach.call(document.querySelectorAll("button[data-scope]"), function (b) { b.addEventListener("click", function () { state.scope = b.getAttribute("data-scope"); Array.prototype.forEach.call(document.querySelectorAll("button[data-scope]"), function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); }); draw(); }); });
-      Array.prototype.forEach.call(document.querySelectorAll("button[data-view]"), function (b) { b.addEventListener("click", function () { state.view = b.getAttribute("data-view"); Array.prototype.forEach.call(document.querySelectorAll("button[data-view]"), function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); }); draw(); }); });
       document.getElementById("tbl-btn").addEventListener("click", function () { var t = document.getElementById("tbl"), on = t.style.display === "block"; t.style.display = on ? "none" : "block"; this.textContent = on ? "Show the numbers as a table" : "Hide the table"; });
 
       d3.csv("data_topics.csv").then(function (res) {
