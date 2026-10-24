@@ -1,251 +1,351 @@
 scope,year,n_articles,category,share
 Local,2000,9736,Disaster linked to climate change,0.2920
-Local,2000,9736,Climate policy,0.4236
+Local,2000,9736,Climate policy,0.3816
+Local,2000,9736,"Climate policy, contesting",0.0420
+Local,2000,9736,Climate change in general,0.1574
+Local,2000,9736,"Climate change in general, contesting",0.0714
 Local,2000,9736,Green energy and industry,0.0283
-Local,2000,9736,Climate change in general,0.2287
 Local,2000,9736,"Preparedness, disaster policy and insurance",0.0273
 Local,2001,11716,Disaster linked to climate change,0.1716
-Local,2001,11716,Climate policy,0.5289
+Local,2001,11716,Climate policy,0.4544
+Local,2001,11716,"Climate policy, contesting",0.0745
+Local,2001,11716,Climate change in general,0.1585
+Local,2001,11716,"Climate change in general, contesting",0.0986
 Local,2001,11716,Green energy and industry,0.0230
-Local,2001,11716,Climate change in general,0.2571
 Local,2001,11716,"Preparedness, disaster policy and insurance",0.0195
 Local,2002,10118,Disaster linked to climate change,0.2662
-Local,2002,10118,Climate policy,0.4474
+Local,2002,10118,Climate policy,0.4018
+Local,2002,10118,"Climate policy, contesting",0.0457
+Local,2002,10118,Climate change in general,0.1588
+Local,2002,10118,"Climate change in general, contesting",0.0734
 Local,2002,10118,Green energy and industry,0.0288
-Local,2002,10118,Climate change in general,0.2323
 Local,2002,10118,"Preparedness, disaster policy and insurance",0.0254
 Local,2003,10398,Disaster linked to climate change,0.2468
-Local,2003,10398,Climate policy,0.4757
+Local,2003,10398,Climate policy,0.4291
+Local,2003,10398,"Climate policy, contesting",0.0465
+Local,2003,10398,Climate change in general,0.1604
+Local,2003,10398,"Climate change in general, contesting",0.0616
 Local,2003,10398,Green energy and industry,0.0287
-Local,2003,10398,Climate change in general,0.2221
 Local,2003,10398,"Preparedness, disaster policy and insurance",0.0268
 Local,2004,11118,Disaster linked to climate change,0.2643
-Local,2004,11118,Climate policy,0.4392
+Local,2004,11118,Climate policy,0.3962
+Local,2004,11118,"Climate policy, contesting",0.0430
+Local,2004,11118,Climate change in general,0.1803
+Local,2004,11118,"Climate change in general, contesting",0.0680
 Local,2004,11118,Green energy and industry,0.0271
-Local,2004,11118,Climate change in general,0.2483
 Local,2004,11118,"Preparedness, disaster policy and insurance",0.0211
 Local,2005,16426,Disaster linked to climate change,0.2660
-Local,2005,16426,Climate policy,0.4556
+Local,2005,16426,Climate policy,0.3958
+Local,2005,16426,"Climate policy, contesting",0.0598
+Local,2005,16426,Climate change in general,0.1658
+Local,2005,16426,"Climate change in general, contesting",0.0699
 Local,2005,16426,Green energy and industry,0.0209
-Local,2005,16426,Climate change in general,0.2357
 Local,2005,16426,"Preparedness, disaster policy and insurance",0.0219
 Local,2006,23243,Disaster linked to climate change,0.2123
-Local,2006,23243,Climate policy,0.4066
+Local,2006,23243,Climate policy,0.3580
+Local,2006,23243,"Climate policy, contesting",0.0486
+Local,2006,23243,Climate change in general,0.2358
+Local,2006,23243,"Climate change in general, contesting",0.1019
 Local,2006,23243,Green energy and industry,0.0249
-Local,2006,23243,Climate change in general,0.3377
 Local,2006,23243,"Preparedness, disaster policy and insurance",0.0186
 Local,2007,40903,Disaster linked to climate change,0.1521
-Local,2007,40903,Climate policy,0.4164
+Local,2007,40903,Climate policy,0.3742
+Local,2007,40903,"Climate policy, contesting",0.0422
+Local,2007,40903,Climate change in general,0.2674
+Local,2007,40903,"Climate change in general, contesting",0.1257
 Local,2007,40903,Green energy and industry,0.0239
-Local,2007,40903,Climate change in general,0.3931
 Local,2007,40903,"Preparedness, disaster policy and insurance",0.0145
 Local,2008,34255,Disaster linked to climate change,0.1258
-Local,2008,34255,Climate policy,0.5014
+Local,2008,34255,Climate policy,0.4294
+Local,2008,34255,"Climate policy, contesting",0.0721
+Local,2008,34255,Climate change in general,0.2262
+Local,2008,34255,"Climate change in general, contesting",0.1118
 Local,2008,34255,Green energy and industry,0.0223
-Local,2008,34255,Climate change in general,0.3380
 Local,2008,34255,"Preparedness, disaster policy and insurance",0.0124
 Local,2009,32928,Disaster linked to climate change,0.1070
-Local,2009,32928,Climate policy,0.5245
+Local,2009,32928,Climate policy,0.4524
+Local,2009,32928,"Climate policy, contesting",0.0721
+Local,2009,32928,Climate change in general,0.1958
+Local,2009,32928,"Climate change in general, contesting",0.1454
 Local,2009,32928,Green energy and industry,0.0182
-Local,2009,32928,Climate change in general,0.3411
 Local,2009,32928,"Preparedness, disaster policy and insurance",0.0091
 Local,2010,25949,Disaster linked to climate change,0.1455
-Local,2010,25949,Climate policy,0.5161
+Local,2010,25949,Climate policy,0.4455
+Local,2010,25949,"Climate policy, contesting",0.0706
+Local,2010,25949,Climate change in general,0.1891
+Local,2010,25949,"Climate change in general, contesting",0.1168
 Local,2010,25949,Green energy and industry,0.0200
-Local,2010,25949,Climate change in general,0.3059
 Local,2010,25949,"Preparedness, disaster policy and insurance",0.0125
 Local,2011,21748,Disaster linked to climate change,0.1992
-Local,2011,21748,Climate policy,0.4725
+Local,2011,21748,Climate policy,0.4050
+Local,2011,21748,"Climate policy, contesting",0.0675
+Local,2011,21748,Climate change in general,0.1847
+Local,2011,21748,"Climate change in general, contesting",0.1024
 Local,2011,21748,Green energy and industry,0.0234
-Local,2011,21748,Climate change in general,0.2871
 Local,2011,21748,"Preparedness, disaster policy and insurance",0.0178
 Local,2012,20072,Disaster linked to climate change,0.2540
-Local,2012,20072,Climate policy,0.4074
+Local,2012,20072,Climate policy,0.3437
+Local,2012,20072,"Climate policy, contesting",0.0637
+Local,2012,20072,Climate change in general,0.1997
+Local,2012,20072,"Climate change in general, contesting",0.0845
 Local,2012,20072,Green energy and industry,0.0321
-Local,2012,20072,Climate change in general,0.2842
 Local,2012,20072,"Preparedness, disaster policy and insurance",0.0223
 Local,2013,23807,Disaster linked to climate change,0.2308
-Local,2013,23807,Climate policy,0.3935
+Local,2013,23807,Climate policy,0.3359
+Local,2013,23807,"Climate policy, contesting",0.0576
+Local,2013,23807,Climate change in general,0.2108
+Local,2013,23807,"Climate change in general, contesting",0.1027
 Local,2013,23807,Green energy and industry,0.0372
-Local,2013,23807,Climate change in general,0.3135
 Local,2013,23807,"Preparedness, disaster policy and insurance",0.0250
 Local,2014,30163,Disaster linked to climate change,0.2091
-Local,2014,30163,Climate policy,0.3953
+Local,2014,30163,Climate policy,0.3414
+Local,2014,30163,"Climate policy, contesting",0.0539
+Local,2014,30163,Climate change in general,0.2221
+Local,2014,30163,"Climate change in general, contesting",0.1133
 Local,2014,30163,Green energy and industry,0.0372
-Local,2014,30163,Climate change in general,0.3354
 Local,2014,30163,"Preparedness, disaster policy and insurance",0.0229
 Local,2015,35052,Disaster linked to climate change,0.1882
-Local,2015,35052,Climate policy,0.3914
+Local,2015,35052,Climate policy,0.3463
+Local,2015,35052,"Climate policy, contesting",0.0451
+Local,2015,35052,Climate change in general,0.2653
+Local,2015,35052,"Climate change in general, contesting",0.1062
 Local,2015,35052,Green energy and industry,0.0335
-Local,2015,35052,Climate change in general,0.3715
 Local,2015,35052,"Preparedness, disaster policy and insurance",0.0155
 Local,2016,28753,Disaster linked to climate change,0.1800
-Local,2016,28753,Climate policy,0.4016
+Local,2016,28753,Climate policy,0.3620
+Local,2016,28753,"Climate policy, contesting",0.0396
+Local,2016,28753,Climate change in general,0.2951
+Local,2016,28753,"Climate change in general, contesting",0.0749
 Local,2016,28753,Green energy and industry,0.0323
-Local,2016,28753,Climate change in general,0.3700
 Local,2016,28753,"Preparedness, disaster policy and insurance",0.0161
 Local,2017,31354,Disaster linked to climate change,0.2092
-Local,2017,31354,Climate policy,0.4038
+Local,2017,31354,Climate policy,0.3598
+Local,2017,31354,"Climate policy, contesting",0.0440
+Local,2017,31354,Climate change in general,0.2729
+Local,2017,31354,"Climate change in general, contesting",0.0739
 Local,2017,31354,Green energy and industry,0.0254
-Local,2017,31354,Climate change in general,0.3467
 Local,2017,31354,"Preparedness, disaster policy and insurance",0.0149
 Local,2018,27045,Disaster linked to climate change,0.2832
-Local,2018,27045,Climate policy,0.3800
+Local,2018,27045,Climate policy,0.3296
+Local,2018,27045,"Climate policy, contesting",0.0504
+Local,2018,27045,Climate change in general,0.2203
+Local,2018,27045,"Climate change in general, contesting",0.0561
 Local,2018,27045,Green energy and industry,0.0359
-Local,2018,27045,Climate change in general,0.2764
 Local,2018,27045,"Preparedness, disaster policy and insurance",0.0245
 Local,2019,32954,Disaster linked to climate change,0.2035
-Local,2019,32954,Climate policy,0.4000
+Local,2019,32954,Climate policy,0.3569
+Local,2019,32954,"Climate policy, contesting",0.0431
+Local,2019,32954,Climate change in general,0.2602
+Local,2019,32954,"Climate change in general, contesting",0.0761
 Local,2019,32954,Green energy and industry,0.0384
-Local,2019,32954,Climate change in general,0.3363
 Local,2019,32954,"Preparedness, disaster policy and insurance",0.0218
 Local,2020,20196,Disaster linked to climate change,0.2073
-Local,2020,20196,Climate policy,0.3894
+Local,2020,20196,Climate policy,0.3566
+Local,2020,20196,"Climate policy, contesting",0.0329
+Local,2020,20196,Climate change in general,0.2719
+Local,2020,20196,"Climate change in general, contesting",0.0665
 Local,2020,20196,Green energy and industry,0.0399
-Local,2020,20196,Climate change in general,0.3384
 Local,2020,20196,"Preparedness, disaster policy and insurance",0.0250
 Local,2021,29183,Disaster linked to climate change,0.2435
-Local,2021,29183,Climate policy,0.4304
+Local,2021,29183,Climate policy,0.3881
+Local,2021,29183,"Climate policy, contesting",0.0423
+Local,2021,29183,Climate change in general,0.2094
+Local,2021,29183,"Climate change in general, contesting",0.0519
 Local,2021,29183,Green energy and industry,0.0405
-Local,2021,29183,Climate change in general,0.2613
 Local,2021,29183,"Preparedness, disaster policy and insurance",0.0244
 Local,2022,27122,Disaster linked to climate change,0.2431
-Local,2022,27122,Climate policy,0.4203
+Local,2022,27122,Climate policy,0.3809
+Local,2022,27122,"Climate policy, contesting",0.0395
+Local,2022,27122,Climate change in general,0.2087
+Local,2022,27122,"Climate change in general, contesting",0.0530
 Local,2022,27122,Green energy and industry,0.0486
-Local,2022,27122,Climate change in general,0.2617
 Local,2022,27122,"Preparedness, disaster policy and insurance",0.0263
 Local,2023,25804,Disaster linked to climate change,0.3029
-Local,2023,25804,Climate policy,0.3912
+Local,2023,25804,Climate policy,0.3559
+Local,2023,25804,"Climate policy, contesting",0.0353
+Local,2023,25804,Climate change in general,0.1843
+Local,2023,25804,"Climate change in general, contesting",0.0432
 Local,2023,25804,Green energy and industry,0.0499
-Local,2023,25804,Climate change in general,0.2275
 Local,2023,25804,"Preparedness, disaster policy and insurance",0.0285
 Local,2024,29136,Disaster linked to climate change,0.3835
-Local,2024,29136,Climate policy,0.3359
+Local,2024,29136,Climate policy,0.3122
+Local,2024,29136,"Climate policy, contesting",0.0238
+Local,2024,29136,Climate change in general,0.1770
+Local,2024,29136,"Climate change in general, contesting",0.0300
 Local,2024,29136,Green energy and industry,0.0452
-Local,2024,29136,Climate change in general,0.2070
 Local,2024,29136,"Preparedness, disaster policy and insurance",0.0284
 National,2000,1119,Disaster linked to climate change,0.2118
-National,2000,1119,Climate policy,0.4477
+National,2000,1119,Climate policy,0.3932
+National,2000,1119,"Climate policy, contesting",0.0545
+National,2000,1119,Climate change in general,0.2109
+National,2000,1119,"Climate change in general, contesting",0.0751
 National,2000,1119,Green energy and industry,0.0366
-National,2000,1119,Climate change in general,0.2860
 National,2000,1119,"Preparedness, disaster policy and insurance",0.0179
 National,2001,1591,Disaster linked to climate change,0.1144
-National,2001,1591,Climate policy,0.5852
+National,2001,1591,Climate policy,0.5104
+National,2001,1591,"Climate policy, contesting",0.0748
+National,2001,1591,Climate change in general,0.1766
+National,2001,1591,"Climate change in general, contesting",0.0949
 National,2001,1591,Green energy and industry,0.0220
-National,2001,1591,Climate change in general,0.2715
 National,2001,1591,"Preparedness, disaster policy and insurance",0.0069
 National,2002,1334,Disaster linked to climate change,0.2121
-National,2002,1334,Climate policy,0.4708
+National,2002,1334,Climate policy,0.4145
+National,2002,1334,"Climate policy, contesting",0.0562
+National,2002,1334,Climate change in general,0.1957
+National,2002,1334,"Climate change in general, contesting",0.0795
 National,2002,1334,Green energy and industry,0.0277
-National,2002,1334,Climate change in general,0.2751
 National,2002,1334,"Preparedness, disaster policy and insurance",0.0142
 National,2003,1166,Disaster linked to climate change,0.2007
-National,2003,1166,Climate policy,0.4914
+National,2003,1166,Climate policy,0.4160
+National,2003,1166,"Climate policy, contesting",0.0755
+National,2003,1166,Climate change in general,0.1792
+National,2003,1166,"Climate change in general, contesting",0.0840
 National,2003,1166,Green energy and industry,0.0274
-National,2003,1166,Climate change in general,0.2633
 National,2003,1166,"Preparedness, disaster policy and insurance",0.0172
 National,2004,1121,Disaster linked to climate change,0.2132
-National,2004,1121,Climate policy,0.4808
+National,2004,1121,Climate policy,0.4059
+National,2004,1121,"Climate policy, contesting",0.0749
+National,2004,1121,Climate change in general,0.1918
+National,2004,1121,"Climate change in general, contesting",0.0847
 National,2004,1121,Green energy and industry,0.0223
-National,2004,1121,Climate change in general,0.2765
 National,2004,1121,"Preparedness, disaster policy and insurance",0.0071
 National,2005,1787,Disaster linked to climate change,0.2171
-National,2005,1787,Climate policy,0.4896
+National,2005,1787,Climate policy,0.4007
+National,2005,1787,"Climate policy, contesting",0.0890
+National,2005,1787,Climate change in general,0.1757
+National,2005,1787,"Climate change in general, contesting",0.0795
 National,2005,1787,Green energy and industry,0.0235
-National,2005,1787,Climate change in general,0.2552
 National,2005,1787,"Preparedness, disaster policy and insurance",0.0145
 National,2006,2262,Disaster linked to climate change,0.1923
-National,2006,2262,Climate policy,0.4218
+National,2006,2262,Climate policy,0.3369
+National,2006,2262,"Climate policy, contesting",0.0849
+National,2006,2262,Climate change in general,0.2250
+National,2006,2262,"Climate change in general, contesting",0.1127
 National,2006,2262,Green energy and industry,0.0314
-National,2006,2262,Climate change in general,0.3378
 National,2006,2262,"Preparedness, disaster policy and insurance",0.0168
 National,2007,4119,Disaster linked to climate change,0.1214
-National,2007,4119,Climate policy,0.4773
+National,2007,4119,Climate policy,0.4088
+National,2007,4119,"Climate policy, contesting",0.0685
+National,2007,4119,Climate change in general,0.2486
+National,2007,4119,"Climate change in general, contesting",0.1165
 National,2007,4119,Green energy and industry,0.0265
-National,2007,4119,Climate change in general,0.3651
 National,2007,4119,"Preparedness, disaster policy and insurance",0.0097
 National,2008,3584,Disaster linked to climate change,0.0991
-National,2008,3584,Climate policy,0.5516
+National,2008,3584,Climate policy,0.4531
+National,2008,3584,"Climate policy, contesting",0.0985
+National,2008,3584,Climate change in general,0.2121
+National,2008,3584,"Climate change in general, contesting",0.1027
 National,2008,3584,Green energy and industry,0.0262
-National,2008,3584,Climate change in general,0.3147
 National,2008,3584,"Preparedness, disaster policy and insurance",0.0084
 National,2009,3992,Disaster linked to climate change,0.0679
-National,2009,3992,Climate policy,0.6247
+National,2009,3992,Climate policy,0.5261
+National,2009,3992,"Climate policy, contesting",0.0987
+National,2009,3992,Climate change in general,0.1693
+National,2009,3992,"Climate change in general, contesting",0.1177
 National,2009,3992,Green energy and industry,0.0158
-National,2009,3992,Climate change in general,0.2871
 National,2009,3992,"Preparedness, disaster policy and insurance",0.0045
 National,2010,2857,Disaster linked to climate change,0.1033
-National,2010,2857,Climate policy,0.5758
+National,2010,2857,Climate policy,0.4722
+National,2010,2857,"Climate policy, contesting",0.1036
+National,2010,2857,Climate change in general,0.1544
+National,2010,2857,"Climate change in general, contesting",0.1351
 National,2010,2857,Green energy and industry,0.0207
-National,2010,2857,Climate change in general,0.2895
 National,2010,2857,"Preparedness, disaster policy and insurance",0.0109
 National,2011,2539,Disaster linked to climate change,0.1733
-National,2011,2539,Climate policy,0.5140
+National,2011,2539,Climate policy,0.4222
+National,2011,2539,"Climate policy, contesting",0.0918
+National,2011,2539,Climate change in general,0.1757
+National,2011,2539,"Climate change in general, contesting",0.0989
 National,2011,2539,Green energy and industry,0.0291
-National,2011,2539,Climate change in general,0.2745
 National,2011,2539,"Preparedness, disaster policy and insurance",0.0091
 National,2012,2211,Disaster linked to climate change,0.2438
-National,2012,2211,Climate policy,0.4297
+National,2012,2211,Climate policy,0.3347
+National,2012,2211,"Climate policy, contesting",0.0950
+National,2012,2211,Climate change in general,0.1882
+National,2012,2211,"Climate change in general, contesting",0.0995
 National,2012,2211,Green energy and industry,0.0280
-National,2012,2211,Climate change in general,0.2877
 National,2012,2211,"Preparedness, disaster policy and insurance",0.0109
 National,2013,2304,Disaster linked to climate change,0.2131
-National,2013,2304,Climate policy,0.4253
+National,2013,2304,Climate policy,0.3438
+National,2013,2304,"Climate policy, contesting",0.0816
+National,2013,2304,Climate change in general,0.2079
+National,2013,2304,"Climate change in general, contesting",0.1102
 National,2013,2304,Green energy and industry,0.0312
-National,2013,2304,Climate change in general,0.3181
 National,2013,2304,"Preparedness, disaster policy and insurance",0.0122
 National,2014,2784,Disaster linked to climate change,0.1875
-National,2014,2784,Climate policy,0.4361
+National,2014,2784,Climate policy,0.3585
+National,2014,2784,"Climate policy, contesting",0.0776
+National,2014,2784,Climate change in general,0.2162
+National,2014,2784,"Climate change in general, contesting",0.1175
 National,2014,2784,Green energy and industry,0.0295
-National,2014,2784,Climate change in general,0.3337
 National,2014,2784,"Preparedness, disaster policy and insurance",0.0133
 National,2015,3494,Disaster linked to climate change,0.1574
-National,2015,3494,Climate policy,0.4161
+National,2015,3494,Climate policy,0.3595
+National,2015,3494,"Climate policy, contesting",0.0567
+National,2015,3494,Climate change in general,0.2679
+National,2015,3494,"Climate change in general, contesting",0.1254
 National,2015,3494,Green energy and industry,0.0283
-National,2015,3494,Climate change in general,0.3932
 National,2015,3494,"Preparedness, disaster policy and insurance",0.0049
 National,2016,3331,Disaster linked to climate change,0.1843
-National,2016,3331,Climate policy,0.3687
+National,2016,3331,Climate policy,0.3296
+National,2016,3331,"Climate policy, contesting",0.0390
+National,2016,3331,Climate change in general,0.3170
+National,2016,3331,"Climate change in general, contesting",0.0904
 National,2016,3331,Green energy and industry,0.0294
-National,2016,3331,Climate change in general,0.4074
 National,2016,3331,"Preparedness, disaster policy and insurance",0.0102
 National,2017,4123,Disaster linked to climate change,0.1846
-National,2017,4123,Climate policy,0.4286
+National,2017,4123,Climate policy,0.3837
+National,2017,4123,"Climate policy, contesting",0.0449
+National,2017,4123,Climate change in general,0.2826
+National,2017,4123,"Climate change in general, contesting",0.0742
 National,2017,4123,Green energy and industry,0.0223
-National,2017,4123,Climate change in general,0.3568
 National,2017,4123,"Preparedness, disaster policy and insurance",0.0078
 National,2018,3439,Disaster linked to climate change,0.2571
-National,2018,3439,Climate policy,0.3949
+National,2018,3439,Climate policy,0.3518
+National,2018,3439,"Climate policy, contesting",0.0430
+National,2018,3439,Climate change in general,0.2411
+National,2018,3439,"Climate change in general, contesting",0.0672
 National,2018,3439,Green energy and industry,0.0331
-National,2018,3439,Climate change in general,0.3082
 National,2018,3439,"Preparedness, disaster policy and insurance",0.0067
 National,2019,5862,Disaster linked to climate change,0.2352
-National,2019,5862,Climate policy,0.3649
+National,2019,5862,Climate policy,0.3270
+National,2019,5862,"Climate policy, contesting",0.0379
+National,2019,5862,Climate change in general,0.2892
+National,2019,5862,"Climate change in general, contesting",0.0660
 National,2019,5862,Green energy and industry,0.0350
-National,2019,5862,Climate change in general,0.3552
 National,2019,5862,"Preparedness, disaster policy and insurance",0.0097
 National,2020,5303,Disaster linked to climate change,0.2542
-National,2020,5303,Climate policy,0.4060
+National,2020,5303,Climate policy,0.3732
+National,2020,5303,"Climate policy, contesting",0.0328
+National,2020,5303,Climate change in general,0.2451
+National,2020,5303,"Climate change in general, contesting",0.0537
 National,2020,5303,Green energy and industry,0.0277
-National,2020,5303,Climate change in general,0.2989
 National,2020,5303,"Preparedness, disaster policy and insurance",0.0132
 National,2021,8703,Disaster linked to climate change,0.2199
-National,2021,8703,Climate policy,0.5157
+National,2021,8703,Climate policy,0.4701
+National,2021,8703,"Climate policy, contesting",0.0456
+National,2021,8703,Climate change in general,0.1805
+National,2021,8703,"Climate change in general, contesting",0.0421
 National,2021,8703,Green energy and industry,0.0271
-National,2021,8703,Climate change in general,0.2226
 National,2021,8703,"Preparedness, disaster policy and insurance",0.0147
 National,2022,7528,Disaster linked to climate change,0.2536
-National,2022,7528,Climate policy,0.4568
+National,2022,7528,Climate policy,0.4066
+National,2022,7528,"Climate policy, contesting",0.0502
+National,2022,7528,Climate change in general,0.1800
+National,2022,7528,"Climate change in general, contesting",0.0592
 National,2022,7528,Green energy and industry,0.0380
-National,2022,7528,Climate change in general,0.2392
 National,2022,7528,"Preparedness, disaster policy and insurance",0.0124
 National,2023,6719,Disaster linked to climate change,0.3298
-National,2023,6719,Climate policy,0.3701
+National,2023,6719,Climate policy,0.3231
+National,2023,6719,"Climate policy, contesting",0.0470
+National,2023,6719,Climate change in general,0.1932
+National,2023,6719,"Climate change in general, contesting",0.0499
 National,2023,6719,Green energy and industry,0.0390
-National,2023,6719,Climate change in general,0.2430
 National,2023,6719,"Preparedness, disaster policy and insurance",0.0180
 National,2024,5541,Disaster linked to climate change,0.3198
-National,2024,5541,Climate policy,0.3747
+National,2024,5541,Climate policy,0.3194
+National,2024,5541,"Climate policy, contesting",0.0552
+National,2024,5541,Climate change in general,0.1841
+National,2024,5541,"Climate change in general, contesting",0.0635
 National,2024,5541,Green energy and industry,0.0375
-National,2024,5541,Climate change in general,0.2476
 National,2024,5541,"Preparedness, disaster policy and insurance",0.0204

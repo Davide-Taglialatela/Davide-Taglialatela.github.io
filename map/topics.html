@@ -10,7 +10,7 @@
       :root {
         --c-skeptical: #e87ba4; --c-climate: #a51c30; --c-personal: #2a78d6; --c-human: #eb6834;
         --c-institutional: #1baf7a; --c-background: #eda100; --c-facts: #8a8f94;
-        --g-disaster: #a51c30; --g-policy: #2a78d6; --g-green: #1baf7a; --g-general: #C9CED2; --g-prep: #eda100;
+        --g-disaster: #a51c30; --g-policy: #2a78d6; --g-policy-c: #0d366b; --g-green: #1baf7a; --g-general: #C9CED2; --g-general-c: #5f676c; --g-prep: #eda100;
       }
       .chart-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 36px 0 10px; }
       .chart-lead { font-size: 14.5px; color: #444; margin: 0 0 12px; max-width: 760px; }
@@ -78,7 +78,7 @@
       <div class="tbl" id="tbl"></div>
 
       <h2 class="chart-title">Climate coverage in general</h2>
-      <p class="chart-lead">All articles that mention climate change, whatever the subject: what share is a disaster linked to climate change, climate policy, green energy and industry, climate change in general, or preparedness, disaster policy and insurance.</p>
+      <p class="chart-lead">All articles that mention climate change, whatever the subject: what share is a disaster linked to climate change, climate policy, climate change in general, green energy and industry, or preparedness, disaster policy and insurance, with the policy and general classes split into affirming-or-neutral and contesting coverage.</p>
       <div class="chart-box" id="chart-box2">
         <svg id="chart2" viewBox="0 0 960 460" role="img" aria-label="Yearly shares of climate coverage by class"></svg>
         <div class="tooltip" id="tooltip2" role="status"></div>
@@ -91,7 +91,7 @@
       <div class="notes">
         <p><strong>Categories.</strong> <em>Skeptical</em>: the article disputes the link between the disaster and climate change. <em>Climate-linked</em>: it connects the event to climate change, or has substantive sections on both. <em>Episodic storytelling</em>: it tells the event through individuals&rsquo; stories. <em>Human impacts</em>: victims and damage to homes are the central topic, but without storytelling. <em>Institutional response</em>: relief, agencies, insurance. <em>Disaster background and risk</em>: the article goes beyond the specific event, for example the hazard in general, how often it strikes, or what to expect in the future, without linking it to climate change. <em>Event facts</em>: only the specific event. Each article gets the first category that applies, in this order. An article with a climate link and background blocks is climate-linked, which keeps the background category small.</p>
         <p><strong>Corpus.</strong> 1,434,459 disaster articles published 2000&ndash;2024 by U.S. local and national outlets, classified paragraph by paragraph with the fine-tuned language models behind the climate interpretation measure. Shares are computed within outlet scope and year.</p>
-        <p><strong>Climate coverage in general.</strong> An article enters when it has a paragraph on climate change, links a disaster to climate change, or is centred on climate policy. Classes, in order: <em>disaster linked to climate change</em>; <em>climate change in general</em>, when climate change itself is the main subject, mostly science, trends and projections; <em>climate policy</em>; <em>green energy and industry</em>; <em>preparedness, disaster policy and insurance</em>.</p>
+        <p><strong>Climate coverage in general.</strong> An article enters when it has a paragraph on climate change, links a disaster to climate change, or is centred on climate policy. Classes, in order: <em>disaster linked to climate change</em>; <em>climate change in general</em>, when climate change itself is the main subject, mostly science, trends and projections; <em>climate policy</em>; <em>green energy and industry</em>; <em>preparedness, disaster policy and insurance</em>. The general and policy classes are split by stance: <em>contesting</em> when the article treats climate change or the link skeptically, otherwise affirming or neutral.</p>
         <p>From <a href="../files/JMP_Davide_Taglialatela.pdf">What a Disaster Means: Attention, Interpretation, and the Demand for Green Assets</a>.</p>
       </div>
     </div>
@@ -188,7 +188,9 @@
         cats: [
           { key: "Disaster linked to climate change", v: "--g-disaster", label: "Disaster linked to climate change" },
           { key: "Climate policy", v: "--g-policy", label: "Climate policy" },
+          { key: "Climate policy, contesting", v: "--g-policy-c", label: "Climate policy, contesting" },
           { key: "Climate change in general", v: "--g-general", label: "Climate change in general" },
+          { key: "Climate change in general, contesting", v: "--g-general-c", label: "Climate change in general, contesting" },
           { key: "Green energy and industry", v: "--g-green", label: "Green energy and industry" },
           { key: "Preparedness, disaster policy and insurance", v: "--g-prep", label: "Preparedness, disaster policy and insurance" }
         ]
