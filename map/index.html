@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Disaster coverage map &middot; Davide Taglialatela</title>
-    <meta name="description" content="Interactive county map of local disaster coverage in the United States, 2015-2024: attention and climate interpretation by quintile, with the disaster episodes that hit each county." />
+    <meta name="description" content="Interactive county map of the United States, 2015-2024: the climate interpretation of local disaster coverage by quintile and year, with the disaster episodes that hit each county." />
     <link rel="stylesheet" href="../style.css" />
     <style>
       :root {
@@ -59,19 +59,12 @@
   <body>
     <div class="wrapper map-wrapper">
       <header>
-        <p class="back"><a href="../">&larr; Davide Taglialatela</a><span style="margin:0 8px">&middot;</span><a href="investors.html">Investors and firms map</a></p>
+        <p class="back"><a href="../">&larr; Davide Taglialatela</a><span style="margin:0 8px">&middot;</span><a href="investors.html" data-map-link="investors.html">Investors and firms map</a><span style="margin:0 8px">&middot;</span><a href="topics.html">What the coverage talks about</a></p>
         <h1 class="map-title">What a disaster means, county by county</h1>
-        <p class="map-sub">Local news coverage of disasters in the United States, 2015&ndash;2024: how much attention a county&rsquo;s local outlets gave to disasters, and how much of that coverage interpreted the events as climate change. Counties are shaded by quintile within each year. Tick a hazard to see the disaster episodes that hit each county.</p>
+        <p class="map-sub">Local news coverage of disasters in the United States, 2015&ndash;2024: the share of a county&rsquo;s local disaster coverage that interprets the events as climate change, by quintile within each year. Tick a hazard to see the disaster episodes that hit each county.</p>
       </header>
 
       <div class="controls" id="controls">
-        <div class="control">
-          <span class="control-label">Measure</span>
-          <div class="seg" role="group" aria-label="Measure">
-            <button type="button" id="btn-interp" aria-pressed="true">Climate interpretation</button>
-            <button type="button" id="btn-attn" aria-pressed="false">Attention</button>
-          </div>
-        </div>
         <div class="control">
           <span class="control-label">Year</span>
           <div class="year-row">
@@ -99,7 +92,7 @@
       </div>
 
       <div class="legend" id="legend">
-        <span class="lg-title" id="legend-title">Climate interpretation, quintile within year</span>
+        <span class="lg-title" id="legend-title">Climate interpretation of local disaster coverage, quintile within year</span>
         <span class="bins">
           <span>Lowest</span>
           <span class="bin" style="background: var(--q1)"></span><span class="bin" style="background: var(--q2)"></span><span class="bin" style="background: var(--q3)"></span><span class="bin" style="background: var(--q4)"></span><span class="bin" style="background: var(--q5)"></span>
@@ -110,7 +103,7 @@
       <p class="summary" id="summary"></p>
 
       <div class="notes">
-        <p><strong>What is shown.</strong> <em>Attention</em> is the circulation-weighted volume of disaster coverage by a county&rsquo;s local newspapers in the year. <em>Climate interpretation</em> is the share of that local disaster coverage that interprets the event as a manifestation of climate change, classified article by article with fine-tuned language models and averaged across the county&rsquo;s outlets with circulation weights. Each year, counties are ranked and split into five equal groups; the map shows the group, not the underlying value. The &ldquo;average&rdquo; view ranks counties on their 2015&ndash;2024 mean. Grey counties have no local newspaper coverage in the sample.</p>
+        <p><strong>What is shown.</strong> <em>Climate interpretation</em> is the share of a county&rsquo;s local disaster coverage that interprets the event as a manifestation of climate change, classified article by article with fine-tuned language models and averaged across the county&rsquo;s outlets with circulation weights. Each year, counties are ranked and split into five equal groups; the map shows the group, not the underlying value. The &ldquo;average&rdquo; view ranks counties on their 2015&ndash;2024 mean. Grey counties have no local newspaper coverage in the sample.</p>
         <p><strong>Disaster episodes</strong> are the paper&rsquo;s sample of floods, hurricanes, wildfires and coastal events, built from the NOAA Storm Events Database and retained when in the top 15 percent of an index of losses, fatalities and injuries. A county is marked as hit when NOAA records positive damage, deaths or injuries there for the episode. Episodes are dated by their start.</p>
         <p>From <a href="../files/JMP_Davide_Taglialatela.pdf">What a Disaster Means: Attention, Interpretation, and the Demand for Green Assets</a>. The county-year dataset underlying the map is not yet released; only quintiles are shown here.</p>
       </div>
@@ -241,15 +234,16 @@
         document.getElementById("year").value = state.yearIdx;
         var yr = yearValue();
         document.getElementById("year-label").innerHTML = yr ? String(yr) : "2015&ndash;2024 average";
+        syncYearLinks();
         draw();
       }
 
-      function setMeasure(mkey) {
-        state.measure = mkey;
-        document.getElementById("btn-interp").setAttribute("aria-pressed", mkey === "interp" ? "true" : "false");
-        document.getElementById("btn-attn").setAttribute("aria-pressed", mkey === "attn" ? "true" : "false");
-        document.getElementById("legend-title").textContent = (mkey === "interp" ? "Climate interpretation" : "Attention") + ", quintile within year";
-        draw();
+      function setMeasure(mkey) { state.measure = mkey; draw(); }
+      function yearFromHash() { var m = /y=(\d{4}|0)/.exec(location.hash || ""); if (!m) return 0; var i = YEARS.indexOf(+m[1]); return i < 0 ? 0 : i; }
+      function syncYearLinks() {
+        var yr = yearValue();
+        try { history.replaceState(null, "", location.pathname + location.search + (yr ? "#y=" + yr : "")); } catch (e) {}
+        Array.prototype.forEach.call(document.querySelectorAll("a[data-map-link]"), function (a) { a.setAttribute("href", a.getAttribute("data-map-link") + (yr ? "#y=" + yr : "")); });
       }
 
       function hitTest(x, y) {
@@ -271,7 +265,6 @@
         html += '<div class="tt-muted">' + (yr ? yr : "2015–2024 average") + "</div>";
         if (rec && (rec.interp || rec.attn)) {
           html += "<div>Climate interpretation: " + (rec.interp ? "<strong>" + ordinal(rec.interp) + "</strong>" : "no coverage to interpret") + "</div>";
-          html += "<div>Attention: " + (rec.attn ? "<strong>" + ordinal(rec.attn) + "</strong>" : "—") + "</div>";
         } else {
           html += "<div>No local coverage in the sample.</div>";
         }
@@ -308,8 +301,6 @@
       canvas.addEventListener("mouseleave", function () { hovered = -1; hideTooltip(); draw(); });
       canvas.addEventListener("click", onMove);
 
-      document.getElementById("btn-interp").addEventListener("click", function () { setMeasure("interp"); });
-      document.getElementById("btn-attn").addEventListener("click", function () { setMeasure("attn"); });
       document.getElementById("year").addEventListener("input", function (e) { stopPlay(); setYear(+e.target.value); });
       Array.prototype.forEach.call(document.querySelectorAll("#hazards input"), function (cb) {
         cb.addEventListener("change", function () { state.hazards[cb.value] = cb.checked; draw(); });
@@ -369,7 +360,7 @@
         Object.keys(episodes).forEach(function (yr) { episodes[yr].sort(function (a, b) { return a.start < b.start ? -1 : a.start > b.start ? 1 : 0; }); });
 
         document.getElementById("loading").style.display = "none";
-        setupCanvas(); buildPaths(); setMeasure("interp"); setYear(0);
+        setupCanvas(); buildPaths(); setMeasure("interp"); setYear(yearFromHash());
       }).catch(function (err) {
         document.getElementById("loading").textContent = "The map could not be loaded (" + (err && err.message ? err.message : err) + ").";
       });

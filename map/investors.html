@@ -68,9 +68,9 @@
   <body>
     <div class="wrapper map-wrapper">
       <header>
-        <p class="back"><a href="../">&larr; Davide Taglialatela</a><span class="sep">&middot;</span><a href="./">News map</a></p>
+        <p class="back"><a href="../">&larr; Davide Taglialatela</a><span class="sep">&middot;</span><a href="./" data-map-link="./">News map</a><span class="sep">&middot;</span><a href="topics.html">What the coverage talks about</a></p>
         <h1 class="map-title">Investors, firms and disasters, county by county</h1>
-        <p class="map-sub">Where the money and the firms are: local investment advisers&rsquo; green ETF holdings and mutual-fund managers&rsquo; E-pillar tilt by year, listed firms by environmental score or physical climate risk at their headquarters county, and the floods, hurricanes, wildfires and coastal events of 2015&ndash;2024. Counties can be shaded by the news measures of the <a href="./">first map</a>.</p>
+        <p class="map-sub">Where the money and the firms are: local investment advisers&rsquo; green ETF holdings and mutual-fund managers&rsquo; E-pillar tilt by year, listed firms by environmental score or physical climate risk at their headquarters county, and the floods, hurricanes, wildfires and coastal events of 2015&ndash;2024. Counties can be shaded by the local climate interpretation of disaster coverage in the selected year, the measure of the <a href="./" data-map-link="./">first map</a>.</p>
       </header>
 
       <div class="controls" id="controls">
@@ -79,15 +79,14 @@
           <div class="seg" role="group" aria-label="County shading">
             <button type="button" data-shade="none" aria-pressed="true">None</button>
             <button type="button" data-shade="interp" aria-pressed="false">Climate interpretation</button>
-            <button type="button" data-shade="attn" aria-pressed="false">Attention</button>
           </div>
-          <span class="tt-muted" style="font-size:11.5px;color:var(--muted)">2015&ndash;2024 average, quintiles</span>
+          <span class="tt-muted" style="font-size:11.5px;color:var(--muted)">quintile within the selected year</span>
         </div>
 
         <div class="control layer">
           <label><input type="checkbox" id="lay-adv" checked /> Local advisers&rsquo; green ETF holdings</label>
           <label><input type="checkbox" id="lay-mf" /> Mutual-fund managers&rsquo; E-pillar tilt</label>
-          <div class="sub" id="sub-year">
+          <div class="sub" id="sub-year" title="Moves the advisers, the fund managers and the county shading">
             <div class="year-row">
               <input type="range" id="year" min="0" max="10" step="1" value="0" aria-label="Year for the investor layers" />
               <span class="year-label" id="year-label">2015&ndash;2024 average</span>
@@ -129,8 +128,8 @@
       <p class="summary" id="summary"></p>
 
       <div class="notes">
-        <p><strong>Local advisers.</strong> Circles mark counties with SEC-registered investment advisers whose ETF holdings are observed. Colour is the green share of those holdings (ETFs tracking green or climate indices): none, or the lower, middle and upper third of counties with any green ETFs in that year. Circle size is the third of counties by ETF holdings. The year slider moves this layer and the fund managers.</p>
-        <p><strong>Mutual-fund managers.</strong> Triangles mark the counties where the managers of active U.S. equity mutual funds work (fund management offices, weighted when a team spans several counties). Colour is the county&rsquo;s fifth by the funds&rsquo; portfolio tilt toward high environmental-score stocks (portfolio-weighted Refinitiv E-pillar score of the holdings, standardised within each year&rsquo;s stock cross-section); size is the number of funds managed there (1&ndash;2, 3&ndash;9, 10&ndash;39, 40 or more). The year slider moves this layer and the advisers.</p>
+        <p><strong>Local advisers.</strong> Circles mark counties with SEC-registered investment advisers whose ETF holdings are observed. Colour is the green share of those holdings (ETFs tracking green or climate indices): none, or the lower, middle and upper third of counties with any green ETFs in that year. Circle size is the third of counties by ETF holdings. The year slider moves this layer, the fund managers and the county shading.</p>
+        <p><strong>Mutual-fund managers.</strong> Triangles mark the counties where the managers of active U.S. equity mutual funds work (fund management offices, weighted when a team spans several counties). Colour is the county&rsquo;s fifth by the funds&rsquo; portfolio tilt toward high environmental-score stocks (portfolio-weighted Refinitiv E-pillar score of the holdings, standardised within each year&rsquo;s stock cross-section); size is the number of funds managed there (1&ndash;2, 3&ndash;9, 10&ndash;39, 40 or more). The year slider moves this layer, the advisers and the county shading.</p>
         <p><strong>Listed firms.</strong> Diamonds mark the headquarters counties of U.S. listed firms with a Refinitiv environmental pillar score, 2015&ndash;2024. Size is the number of firms (1, 2&ndash;3, 4&ndash;15, 16 or more). Colour is the county&rsquo;s fifth by the firms&rsquo; average environmental score or, when selected, by their average Trucost physical climate risk (mean sensitivity across cold waves, water stress, wildfire, drought, coastal and river floods, heat waves and hurricanes).</p>
         <p><strong>Disaster episodes</strong> are the paper&rsquo;s sample of floods, hurricanes, wildfires and coastal events from the NOAA Storm Events Database, retained when in the top 15 percent of an index of losses, fatalities and injuries; a county is marked when NOAA records positive damage, deaths or injuries there. All 2015&ndash;2024 episodes are shown together.</p>
         <p>Every quantity is shown as a group (thirds or fifths), never as a value. From <a href="../files/JMP_Davide_Taglialatela.pdf">What a Disaster Means: Attention, Interpretation, and the Demand for Green Assets</a>.</p>
@@ -200,11 +199,11 @@
       function diamond(x, y, s) { ctx.beginPath(); ctx.moveTo(x, y - s); ctx.lineTo(x + s, y); ctx.lineTo(x, y + s); ctx.lineTo(x - s, y); ctx.closePath(); }
 
       function draw() {
-        var m = measure[0] || {};
+        var m = measure[yearValue()] || {};
         ctx.clearRect(0, 0, W, H);
         counties.forEach(function (f, i) {
           var fill = PLAIN;
-          if (state.shade !== "none") { var rec = m[f.id], b = rec ? rec[state.shade] : 0; fill = b ? RAMP[b - 1] : NODATA; }
+          if (state.shade !== "none") { var rec = m[f.id], b = rec ? rec.interp : 0; fill = b ? RAMP[b - 1] : NODATA; }
           ctx.fillStyle = fill; ctx.fill(paths[i]);
         });
         ctx.lineJoin = "round";
@@ -262,7 +261,7 @@
       function updateLegend() {
         var html = "";
         if (state.shade !== "none") {
-          html += '<div class="legend-row"><span class="lg-title">County shading: ' + (state.shade === "interp" ? "climate interpretation" : "attention") + ', 2015–2024 average</span><span class="bins"><span>Lowest</span>' +
+          html += '<div class="legend-row"><span class="lg-title">County shading: climate interpretation of local disaster coverage' + (yearValue() ? ", " + yearValue() : ", 2015\u20132024 average") + '</span><span class="bins"><span>Lowest</span>' +
             RAMP.map(function (c) { return '<span class="bin" style="background:' + c + '"></span>'; }).join("") + '<span>Highest</span></span><span class="bins"><span class="nd"></span><span>No local coverage</span></span></div>';
         }
         if (state.adv) {
@@ -303,7 +302,14 @@
         document.getElementById("year").value = state.yearIdx;
         var yr = yearValue();
         document.getElementById("year-label").innerHTML = yr ? String(yr) : "2015&ndash;2024 average";
+        syncYearLinks();
         draw();
+      }
+      function yearFromHash() { var m = /y=(\d{4}|0)/.exec(location.hash || ""); if (!m) return 0; var i = YEARS.indexOf(+m[1]); return i < 0 ? 0 : i; }
+      function syncYearLinks() {
+        var yr = yearValue();
+        try { history.replaceState(null, "", location.pathname + location.search + (yr ? "#y=" + yr : "")); } catch (e) {}
+        Array.prototype.forEach.call(document.querySelectorAll("a[data-map-link]"), function (a) { a.setAttribute("href", a.getAttribute("data-map-link") + (yr ? "#y=" + yr : "")); });
       }
       function setSeg(groupAttr, value) {
         Array.prototype.forEach.call(document.querySelectorAll("button[" + groupAttr + "]"), function (b) { b.setAttribute("aria-pressed", b.getAttribute(groupAttr) === value ? "true" : "false"); });
@@ -320,8 +326,8 @@
         var f = counties[i], st = stateName[f.id.slice(0, 2)] || "";
         var html = '<div class="tt-name">' + f.properties.name + (st ? ", " + st : "") + "</div>";
         if (state.shade !== "none") {
-          var rec = (measure[0] || {})[f.id], b = rec ? rec[state.shade] : 0;
-          html += '<div class="tt-muted">' + (state.shade === "interp" ? "Climate interpretation" : "Attention") + ", 2015–2024: " + (b ? "<strong>" + FIFTH[b - 1] + "</strong>" : "no local coverage") + "</div>";
+          var rec = (measure[yearValue()] || {})[f.id], b = rec ? rec.interp : 0;
+          html += '<div class="tt-muted">Climate interpretation' + (yearValue() ? ", " + yearValue() : ", 2015\u20132024 average") + ": " + (b ? "<strong>" + FIFTH[b - 1] + "</strong>" : "no local coverage") + "</div>";
         }
         if (state.adv) {
           var yr = yearValue(), a = (advisers[yr] || {})[f.id];
@@ -370,7 +376,7 @@
       }
       function bindYearLayer(id, key) {
         var cb = document.getElementById(id), sub = document.getElementById("sub-year");
-        cb.addEventListener("change", function () { state[key] = cb.checked; var on = state.adv || state.mf; sub.classList.toggle("off", !on); if (!on) stopPlay(); draw(); });
+        cb.addEventListener("change", function () { state[key] = cb.checked; draw(); });
       }
       bindYearLayer("lay-adv", "adv"); bindYearLayer("lay-mf", "mf"); bindLayer("lay-firm", "sub-firm", "firm"); bindLayer("lay-ep", "sub-ep", "ep");
       Array.prototype.forEach.call(document.querySelectorAll("#sub-ep input"), function (cb) { cb.addEventListener("change", function () { state.hazards[cb.value] = cb.checked; draw(); }); });
@@ -397,7 +403,7 @@
         us.objects.states.geometries.forEach(function (g) { stateName[String(g.id)] = g.properties.name; });
         stateMeshGeo = topojson.mesh(us, sobj, function (a, b) { return a !== b; });
         countyMeshGeo = topojson.mesh(us, cobj, function (a, b) { return a !== b; });
-        res[1].forEach(function (r) { if (+r.year !== 0) return; measure[0] = measure[0] || {}; measure[0][r.fips] = { attn: r.attn_q ? +r.attn_q : 0, interp: r.interp_q ? +r.interp_q : 0 }; });
+        res[1].forEach(function (r) { var yr = +r.year; measure[yr] = measure[yr] || {}; measure[yr][r.fips] = { interp: r.interp_q ? +r.interp_q : 0 }; });
         res[2].forEach(function (r) { var yr = +r.year; advisers[yr] = advisers[yr] || {}; advisers[yr][r.fips] = { g: +r.green_bin, s: r.assets_bin ? +r.assets_bin : 1 }; });
         res[3].forEach(function (r) { firms[r.fips] = { n: +r.n_class, e: r.e_bin ? +r.e_bin : 0, risk: r.risk_bin ? +r.risk_bin : 0, count: [1, 2, 4, 16][+r.n_class - 1] }; });
         res[5].forEach(function (r) { var yr = +r.year; funds[yr] = funds[yr] || {}; funds[yr][r.fips] = { n: +r.n_class, e: r.e_bin ? +r.e_bin : 0 }; });
@@ -407,7 +413,7 @@
         episodes.sort(function (a, b) { return a.start < b.start ? -1 : a.start > b.start ? 1 : 0; });
         Object.keys(epByFips).forEach(function (f) { epByFips[f].sort(function (a, b) { return a.start < b.start ? -1 : 1; }); });
         document.getElementById("loading").style.display = "none";
-        setupCanvas(); buildPaths(); setYear(0);
+        setupCanvas(); buildPaths(); setYear(yearFromHash());
       }).catch(function (err) { document.getElementById("loading").textContent = "The map could not be loaded (" + (err && err.message ? err.message : err) + ")."; });
     })();
     </script>

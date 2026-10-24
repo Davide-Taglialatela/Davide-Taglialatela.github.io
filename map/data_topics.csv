@@ -1,0 +1,211 @@
+scope,year,n_articles,category,share
+Local,2010,70260,Skeptical,0.0040
+Local,2010,70260,Climate-linked,0.0505
+Local,2010,70260,Personal storytelling,0.2692
+Local,2010,70260,Human impacts,0.0553
+Local,2010,70260,Institutional response,0.1153
+Local,2010,70260,Disaster background and risk,0.0467
+Local,2010,70260,Event facts,0.4591
+Local,2011,85113,Skeptical,0.0046
+Local,2011,85113,Climate-linked,0.0476
+Local,2011,85113,Personal storytelling,0.2508
+Local,2011,85113,Human impacts,0.0452
+Local,2011,85113,Institutional response,0.1352
+Local,2011,85113,Disaster background and risk,0.0464
+Local,2011,85113,Event facts,0.4702
+Local,2012,67168,Skeptical,0.0060
+Local,2012,67168,Climate-linked,0.0711
+Local,2012,67168,Personal storytelling,0.2365
+Local,2012,67168,Human impacts,0.0300
+Local,2012,67168,Institutional response,0.1461
+Local,2012,67168,Disaster background and risk,0.0506
+Local,2012,67168,Event facts,0.4596
+Local,2013,61617,Skeptical,0.0063
+Local,2013,61617,Climate-linked,0.0837
+Local,2013,61617,Personal storytelling,0.2347
+Local,2013,61617,Human impacts,0.0372
+Local,2013,61617,Institutional response,0.1480
+Local,2013,61617,Disaster background and risk,0.0473
+Local,2013,61617,Event facts,0.4428
+Local,2014,55627,Skeptical,0.0083
+Local,2014,55627,Climate-linked,0.1064
+Local,2014,55627,Personal storytelling,0.2127
+Local,2014,55627,Human impacts,0.0296
+Local,2014,55627,Institutional response,0.1519
+Local,2014,55627,Disaster background and risk,0.0577
+Local,2014,55627,Event facts,0.4334
+Local,2015,51923,Skeptical,0.0086
+Local,2015,51923,Climate-linked,0.1198
+Local,2015,51923,Personal storytelling,0.2159
+Local,2015,51923,Human impacts,0.0596
+Local,2015,51923,Institutional response,0.1223
+Local,2015,51923,Disaster background and risk,0.0636
+Local,2015,51923,Event facts,0.4102
+Local,2016,47032,Skeptical,0.0052
+Local,2016,47032,Climate-linked,0.1056
+Local,2016,47032,Personal storytelling,0.2388
+Local,2016,47032,Human impacts,0.0680
+Local,2016,47032,Institutional response,0.1198
+Local,2016,47032,Disaster background and risk,0.0616
+Local,2016,47032,Event facts,0.4010
+Local,2017,55432,Skeptical,0.0071
+Local,2017,55432,Climate-linked,0.1123
+Local,2017,55432,Personal storytelling,0.2630
+Local,2017,55432,Human impacts,0.0515
+Local,2017,55432,Institutional response,0.1327
+Local,2017,55432,Disaster background and risk,0.0464
+Local,2017,55432,Event facts,0.3870
+Local,2018,48129,Skeptical,0.0095
+Local,2018,48129,Climate-linked,0.1510
+Local,2018,48129,Personal storytelling,0.2241
+Local,2018,48129,Human impacts,0.0635
+Local,2018,48129,Institutional response,0.1239
+Local,2018,48129,Disaster background and risk,0.0531
+Local,2018,48129,Event facts,0.3749
+Local,2019,37184,Skeptical,0.0122
+Local,2019,37184,Climate-linked,0.1698
+Local,2019,37184,Personal storytelling,0.1976
+Local,2019,37184,Human impacts,0.0362
+Local,2019,37184,Institutional response,0.1511
+Local,2019,37184,Disaster background and risk,0.0578
+Local,2019,37184,Event facts,0.3754
+Local,2020,23023,Skeptical,0.0092
+Local,2020,23023,Climate-linked,0.1738
+Local,2020,23023,Personal storytelling,0.2103
+Local,2020,23023,Human impacts,0.0791
+Local,2020,23023,Institutional response,0.1323
+Local,2020,23023,Disaster background and risk,0.0629
+Local,2020,23023,Event facts,0.3325
+Local,2021,29172,Skeptical,0.0138
+Local,2021,29172,Climate-linked,0.2312
+Local,2021,29172,Personal storytelling,0.1802
+Local,2021,29172,Human impacts,0.0588
+Local,2021,29172,Institutional response,0.1346
+Local,2021,29172,Disaster background and risk,0.0565
+Local,2021,29172,Event facts,0.3248
+Local,2022,26861,Skeptical,0.0134
+Local,2022,26861,Climate-linked,0.2334
+Local,2022,26861,Personal storytelling,0.1714
+Local,2022,26861,Human impacts,0.0473
+Local,2022,26861,Institutional response,0.1374
+Local,2022,26861,Disaster background and risk,0.0539
+Local,2022,26861,Event facts,0.3432
+Local,2023,28026,Skeptical,0.0115
+Local,2023,28026,Climate-linked,0.2686
+Local,2023,28026,Personal storytelling,0.1642
+Local,2023,28026,Human impacts,0.0685
+Local,2023,28026,Institutional response,0.1296
+Local,2023,28026,Disaster background and risk,0.0602
+Local,2023,28026,Event facts,0.2973
+Local,2024,38402,Skeptical,0.0078
+Local,2024,38402,Climate-linked,0.2841
+Local,2024,38402,Personal storytelling,0.1585
+Local,2024,38402,Human impacts,0.0560
+Local,2024,38402,Institutional response,0.1361
+Local,2024,38402,Disaster background and risk,0.0655
+Local,2024,38402,Event facts,0.2920
+National,2010,3630,Skeptical,0.0091
+National,2010,3630,Climate-linked,0.0749
+National,2010,3630,Personal storytelling,0.3468
+National,2010,3630,Human impacts,0.1512
+National,2010,3630,Institutional response,0.0970
+National,2010,3630,Disaster background and risk,0.0479
+National,2010,3630,Event facts,0.2730
+National,2011,4434,Skeptical,0.0176
+National,2011,4434,Climate-linked,0.0873
+National,2011,4434,Personal storytelling,0.2709
+National,2011,4434,Human impacts,0.0904
+National,2011,4434,Institutional response,0.1049
+National,2011,4434,Disaster background and risk,0.0507
+National,2011,4434,Event facts,0.3782
+National,2012,3752,Skeptical,0.0227
+National,2012,3752,Climate-linked,0.1277
+National,2012,3752,Personal storytelling,0.2964
+National,2012,3752,Human impacts,0.0485
+National,2012,3752,Institutional response,0.1181
+National,2012,3752,Disaster background and risk,0.0474
+National,2012,3752,Event facts,0.3393
+National,2013,2650,Skeptical,0.0219
+National,2013,2650,Climate-linked,0.1664
+National,2013,2650,Personal storytelling,0.3075
+National,2013,2650,Human impacts,0.0842
+National,2013,2650,Institutional response,0.0951
+National,2013,2650,Disaster background and risk,0.0513
+National,2013,2650,Event facts,0.2736
+National,2014,2263,Skeptical,0.0265
+National,2014,2263,Climate-linked,0.2077
+National,2014,2263,Personal storytelling,0.2744
+National,2014,2263,Human impacts,0.0893
+National,2014,2263,Institutional response,0.0751
+National,2014,2263,Disaster background and risk,0.0658
+National,2014,2263,Event facts,0.2612
+National,2015,2239,Skeptical,0.0304
+National,2015,2239,Climate-linked,0.2224
+National,2015,2239,Personal storytelling,0.2983
+National,2015,2239,Human impacts,0.1063
+National,2015,2239,Institutional response,0.0509
+National,2015,2239,Disaster background and risk,0.0563
+National,2015,2239,Event facts,0.2354
+National,2016,2413,Skeptical,0.0186
+National,2016,2413,Climate-linked,0.2383
+National,2016,2413,Personal storytelling,0.2777
+National,2016,2413,Human impacts,0.1003
+National,2016,2413,Institutional response,0.0671
+National,2016,2413,Disaster background and risk,0.0642
+National,2016,2413,Event facts,0.2337
+National,2017,3970,Skeptical,0.0191
+National,2017,3970,Climate-linked,0.1756
+National,2017,3970,Personal storytelling,0.3179
+National,2017,3970,Human impacts,0.0665
+National,2017,3970,Institutional response,0.1136
+National,2017,3970,Disaster background and risk,0.0401
+National,2017,3970,Event facts,0.2673
+National,2018,3501,Skeptical,0.0251
+National,2018,3501,Climate-linked,0.2294
+National,2018,3501,Personal storytelling,0.2971
+National,2018,3501,Human impacts,0.0974
+National,2018,3501,Institutional response,0.0668
+National,2018,3501,Disaster background and risk,0.0588
+National,2018,3501,Event facts,0.2254
+National,2019,4305,Skeptical,0.0246
+National,2019,4305,Climate-linked,0.2983
+National,2019,4305,Personal storytelling,0.2232
+National,2019,4305,Human impacts,0.0632
+National,2019,4305,Institutional response,0.0762
+National,2019,4305,Disaster background and risk,0.0729
+National,2019,4305,Event facts,0.2416
+National,2020,4186,Skeptical,0.0172
+National,2020,4186,Climate-linked,0.3065
+National,2020,4186,Personal storytelling,0.2805
+National,2020,4186,Human impacts,0.0870
+National,2020,4186,Institutional response,0.0640
+National,2020,4186,Disaster background and risk,0.0638
+National,2020,4186,Event facts,0.1811
+National,2021,4870,Skeptical,0.0205
+National,2021,4870,Climate-linked,0.3741
+National,2021,4870,Personal storytelling,0.2522
+National,2021,4870,Human impacts,0.0719
+National,2021,4870,Institutional response,0.0526
+National,2021,4870,Disaster background and risk,0.0474
+National,2021,4870,Event facts,0.1813
+National,2022,4787,Skeptical,0.0201
+National,2022,4787,Climate-linked,0.3812
+National,2022,4787,Personal storytelling,0.2490
+National,2022,4787,Human impacts,0.0510
+National,2022,4787,Institutional response,0.0558
+National,2022,4787,Disaster background and risk,0.0405
+National,2022,4787,Event facts,0.2024
+National,2023,5553,Skeptical,0.0182
+National,2023,5553,Climate-linked,0.3816
+National,2023,5553,Personal storytelling,0.2404
+National,2023,5553,Human impacts,0.0751
+National,2023,5553,Institutional response,0.0535
+National,2023,5553,Disaster background and risk,0.0420
+National,2023,5553,Event facts,0.1893
+National,2024,5192,Skeptical,0.0141
+National,2024,5192,Climate-linked,0.3288
+National,2024,5192,Personal storytelling,0.2211
+National,2024,5192,Human impacts,0.0691
+National,2024,5192,Institutional response,0.0638
+National,2024,5192,Disaster background and risk,0.0483
+National,2024,5192,Event facts,0.2548

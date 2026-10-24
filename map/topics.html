@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>What disaster coverage talks about &middot; Davide Taglialatela</title>
+    <meta name="description" content="Composition of U.S. local and national disaster news by category, 2010-2024: climate-linked, skeptical, personal storytelling, human impacts, institutional response, disaster background and event facts." />
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      :root {
+        --c-skeptical: #e87ba4; --c-climate: #a51c30; --c-personal: #2a78d6; --c-human: #eb6834;
+        --c-institutional: #1baf7a; --c-background: #eda100; --c-facts: #8a8f94;
+      }
+      .wrapper.map-wrapper { max-width: 1000px; padding-top: 48px; }
+      .map-wrapper header { margin-bottom: 28px; }
+      .back { font-size: 13.5px; color: var(--muted); margin: 0 0 18px; }
+      .back .sep { margin: 0 8px; }
+      .map-title { font-family: Georgia, "Times New Roman", Times, serif; font-size: 28px; font-weight: 500; margin: 0 0 8px; line-height: 1.25; }
+      .map-sub { margin: 0; font-size: 15px; color: var(--muted); max-width: 760px; }
+      .controls { display: flex; flex-wrap: wrap; gap: 18px 36px; align-items: flex-start; padding: 16px 18px; background: var(--panel); border-radius: 6px; margin: 22px 0 14px; font-size: 13.5px; }
+      .control { display: flex; flex-direction: column; gap: 8px; }
+      .control-label { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+      .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; background: #fff; }
+      .seg button { font-family: inherit; font-size: 13px; padding: 5px 11px; border: none; background: #fff; color: var(--text); cursor: pointer; }
+      .seg button + button { border-left: 1px solid var(--rule); }
+      .seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+      .chart-box { position: relative; border: 1px solid var(--rule); border-radius: 4px; background: #fff; padding: 8px 6px 2px; }
+      .chart-box svg { display: block; width: 100%; height: auto; font-family: inherit; }
+      .tooltip { position: absolute; pointer-events: none; background: #fff; border: 1px solid var(--rule); border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 8px 10px; font-size: 12.5px; line-height: 1.45; display: none; z-index: 2; min-width: 220px; }
+      .tooltip .tt-name { font-weight: 600; margin-bottom: 3px; }
+      .tooltip table { border-collapse: collapse; }
+      .tooltip td { padding: 1px 6px 1px 0; }
+      .tooltip td.num { text-align: right; font-variant-numeric: tabular-nums; }
+      .tooltip .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+      .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--muted); margin: 12px 0 0; }
+      .legend span.item { display: inline-flex; align-items: center; gap: 6px; }
+      .legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+      .legend .item strong { color: var(--text); font-weight: 600; }
+      .summary { font-size: 13px; color: var(--muted); margin: 8px 0 0; min-height: 1.5em; }
+      .tbl { display: none; margin-top: 14px; font-size: 12.5px; overflow-x: auto; }
+      .tbl table { border-collapse: collapse; }
+      .tbl th, .tbl td { padding: 3px 8px; border-bottom: 1px solid var(--rule); text-align: right; font-variant-numeric: tabular-nums; }
+      .tbl th:first-child, .tbl td:first-child { text-align: left; }
+      .link-btn { font-family: inherit; font-size: 12.5px; background: none; border: none; color: var(--accent); cursor: pointer; padding: 0; margin-top: 8px; }
+      .notes { margin-top: 28px; font-size: 13.5px; line-height: 1.6; color: #444; max-width: 820px; }
+      .notes p { margin: 0 0 10px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper map-wrapper">
+      <header>
+        <p class="back"><a href="../">&larr; Davide Taglialatela</a><span class="sep">&middot;</span><a href="./">News map</a><span class="sep">&middot;</span><a href="investors.html">Investors and firms map</a></p>
+        <h1 class="map-title">What disaster coverage talks about</h1>
+        <p class="map-sub">Every disaster article in the corpus is assigned to one category, in a fixed order of precedence: a skeptical treatment of the disaster&ndash;climate connection, a climate link, personal storytelling, human impacts, institutional response, disaster background and risk, or only the facts of the event. The chart shows the yearly composition of local and of national disaster coverage, 2010&ndash;2024.</p>
+      </header>
+
+      <div class="controls">
+        <div class="control">
+          <span class="control-label">Outlets</span>
+          <div class="seg" role="group" aria-label="Outlet scope">
+            <button type="button" data-scope="Local" aria-pressed="true">Local</button>
+            <button type="button" data-scope="National" aria-pressed="false">National</button>
+          </div>
+        </div>
+        <div class="control">
+          <span class="control-label">Display</span>
+          <div class="seg" role="group" aria-label="Display">
+            <button type="button" data-view="stack" aria-pressed="true">Stacked shares</button>
+            <button type="button" data-view="lines" aria-pressed="false">Lines</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-box" id="chart-box">
+        <svg id="chart" viewBox="0 0 960 460" role="img" aria-label="Yearly composition of disaster coverage by category"></svg>
+        <div class="tooltip" id="tooltip" role="status"></div>
+      </div>
+      <div class="legend" id="legend"></div>
+      <p class="summary" id="summary"></p>
+      <button type="button" class="link-btn" id="tbl-btn">Show the numbers as a table</button>
+      <div class="tbl" id="tbl"></div>
+
+      <div class="notes">
+        <p><strong>Categories.</strong> An article is <em>climate-linked</em> when it explicitly connects the event to climate change or has substantive sections on both; a <em>skeptical</em> treatment is a stance and takes precedence in the display. <em>Personal storytelling</em> tells the event through individuals; <em>human impacts</em> report victims and damage to homes; <em>institutional response</em> covers relief, agencies and insurance; <em>disaster background and risk</em> discusses hazards as a class, trends or projections; <em>event facts</em> only reports the specific event. Categories are mutually exclusive.</p>
+        <p><strong>Corpus.</strong> 782,714 disaster articles published 2010&ndash;2024 by U.S. local and national outlets, each publication instance counted once, classified paragraph by paragraph with the fine-tuned language models behind the climate interpretation measure. Shares are computed within outlet scope and year; local and national outlets cover different disasters, so the contrast is descriptive.</p>
+        <p>From <a href="../files/JMP_Davide_Taglialatela.pdf">What a Disaster Means: Attention, Interpretation, and the Demand for Green Assets</a>.</p>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script>
+    (function () {
+      var CATS = [
+        { key: "Event facts", v: "--c-facts", label: "Event facts only" },
+        { key: "Disaster background and risk", v: "--c-background", label: "Disaster background and risk" },
+        { key: "Institutional response", v: "--c-institutional", label: "Institutional response" },
+        { key: "Human impacts", v: "--c-human", label: "Human impacts" },
+        { key: "Personal storytelling", v: "--c-personal", label: "Personal storytelling" },
+        { key: "Climate-linked", v: "--c-climate", label: "Climate-linked" },
+        { key: "Skeptical", v: "--c-skeptical", label: "Skeptical of the climate link" }
+      ];
+      var css = getComputedStyle(document.documentElement);
+      CATS.forEach(function (c) { c.color = css.getPropertyValue(c.v).trim(); });
+      var state = { scope: "Local", view: "stack" };
+      var data = {}, years = [];
+      var svg = d3.select("#chart"), box = document.getElementById("chart-box"), tooltip = document.getElementById("tooltip");
+      var W = 960, H = 460, M = { top: 18, right: 205, bottom: 34, left: 44 };
+      var pct = d3.format(".0%"), pct1 = d3.format(".1%");
+
+      function rows() { return years.map(function (y) { var r = data[state.scope][y], o = { year: y, n: r.n }; CATS.forEach(function (c) { o[c.key] = r.s[c.key] || 0; }); return o; }); }
+
+      function draw() {
+        svg.selectAll("*").remove();
+        var rs = rows();
+        var x = d3.scaleLinear().domain(d3.extent(years)).range([M.left, W - M.right]);
+        var y = d3.scaleLinear().domain([0, state.view === "stack" ? 1 : Math.min(1, (d3.max(rs, function (r) { return d3.max(CATS, function (c) { return r[c.key]; }); }) || 1) * 1.08)]).range([H - M.bottom, M.top]);
+        var g = svg.append("g");
+        g.append("g").attr("transform", "translate(0," + (H - M.bottom) + ")").call(d3.axisBottom(x).ticks(years.length).tickFormat(d3.format("d")).tickSize(4)).call(function (s) { s.select(".domain").attr("stroke", "#c8c8c8"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); s.selectAll("line").attr("stroke", "#c8c8c8"); });
+        g.append("g").attr("transform", "translate(" + M.left + ",0)").call(d3.axisLeft(y).ticks(5).tickFormat(pct).tickSize(-(W - M.left - M.right))).call(function (s) { s.select(".domain").remove(); s.selectAll("line").attr("stroke", "#ececec"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); });
+        var labelData = [];
+        if (state.view === "stack") {
+          var stack = d3.stack().keys(CATS.map(function (c) { return c.key; }))(rs);
+          var area = d3.area().x(function (d) { return x(d.data.year); }).y0(function (d) { return y(d[0]); }).y1(function (d) { return y(d[1]); }).curve(d3.curveMonotoneX);
+          g.selectAll("path.layer").data(stack).enter().append("path").attr("class", "layer").attr("fill", function (d, i) { return CATS[i].color; }).attr("stroke", "#fff").attr("stroke-width", 1).attr("d", area);
+          stack.forEach(function (layer, i) { var last = layer[layer.length - 1]; labelData.push({ cat: CATS[i], y: (y(last[0]) + y(last[1])) / 2, share: last.data[CATS[i].key] }); });
+        } else {
+          var line = d3.line().x(function (d) { return x(d.year); }).y(function (d) { return y(d.v); }).curve(d3.curveMonotoneX);
+          CATS.forEach(function (c) {
+            var pts = rs.map(function (r) { return { year: r.year, v: r[c.key] }; });
+            g.append("path").attr("fill", "none").attr("stroke", c.color).attr("stroke-width", c.key === "Climate-linked" ? 3 : 2).attr("d", line(pts));
+            g.selectAll(null).data(pts).enter().append("circle").attr("cx", function (d) { return x(d.year); }).attr("cy", function (d) { return y(d.v); }).attr("r", 3.2).attr("fill", "#fff").attr("stroke", c.color).attr("stroke-width", 1.5);
+            labelData.push({ cat: c, y: y(pts[pts.length - 1].v), share: pts[pts.length - 1].v });
+          });
+        }
+        labelData.sort(function (a, b) { return a.y - b.y; });
+        for (var i = 1; i < labelData.length; i++) { if (labelData[i].y - labelData[i - 1].y < 14) labelData[i].y = labelData[i - 1].y + 14; }
+        g.selectAll("text.lbl").data(labelData).enter().append("text").attr("class", "lbl").attr("x", W - M.right + 10).attr("y", function (d) { return d.y + 4; }).attr("font-size", 12).attr("fill", "#1a1a1a").text(function (d) { return d.cat.label + " " + pct(d.share); });
+        var hover = g.append("line").attr("stroke", "#1a1a1a").attr("stroke-width", 1).attr("y1", M.top).attr("y2", H - M.bottom).style("display", "none");
+        svg.append("rect").attr("x", M.left).attr("y", M.top).attr("width", W - M.left - M.right).attr("height", H - M.top - M.bottom).attr("fill", "transparent")
+          .on("mousemove", function (ev) {
+            var p = d3.pointer(ev, svg.node()), yr = Math.round(x.invert(p[0])); yr = Math.max(years[0], Math.min(years[years.length - 1], yr));
+            hover.attr("x1", x(yr)).attr("x2", x(yr)).style("display", null);
+            var r = data[state.scope][yr], html = '<div class="tt-name">' + state.scope + " outlets, " + yr + '</div><table>';
+            CATS.slice().reverse().forEach(function (c) { html += '<tr><td><span class="sw" style="background:' + c.color + '"></span>' + c.label + '</td><td class="num">' + pct1(r.s[c.key] || 0) + "</td></tr>"; });
+            html += '</table><div class="tt-muted" style="color:#6b6b6b;margin-top:3px">' + r.n.toLocaleString() + " articles</div>";
+            tooltip.innerHTML = html; tooltip.style.display = "block";
+            var br = box.getBoundingClientRect(), px = ev.clientX - br.left, py = ev.clientY - br.top, tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+            var left = px + 14; if (left + tw > br.width - 4) left = px - tw - 14;
+            var top = py + 14; if (top + th > br.height - 4) top = Math.max(4, py - th - 14);
+            tooltip.style.left = Math.max(4, left) + "px"; tooltip.style.top = top + "px";
+          })
+          .on("mouseleave", function () { hover.style("display", "none"); tooltip.style.display = "none"; });
+        document.getElementById("legend").innerHTML = CATS.slice().reverse().map(function (c) { return '<span class="item"><span class="sw" style="background:' + c.color + '"></span>' + (c.key === "Climate-linked" ? "<strong>" + c.label + "</strong>" : c.label) + "</span>"; }).join("");
+        var first = data[state.scope][years[0]], last = data[state.scope][years[years.length - 1]];
+        document.getElementById("summary").textContent = state.scope + " outlets: climate-linked share " + pct(first.s["Climate-linked"] || 0) + " in " + years[0] + ", " + pct(last.s["Climate-linked"] || 0) + " in " + years[years.length - 1] + "; " + d3.sum(years, function (yv) { return data[state.scope][yv].n; }).toLocaleString() + " disaster articles over the period.";
+        var t = '<table><tr><th>Year</th><th>Articles</th>' + CATS.slice().reverse().map(function (c) { return "<th>" + c.label + "</th>"; }).join("") + "</tr>";
+        rs.forEach(function (r) { t += "<tr><td>" + r.year + "</td><td>" + r.n.toLocaleString() + "</td>" + CATS.slice().reverse().map(function (c) { return "<td>" + pct1(r[c.key]) + "</td>"; }).join("") + "</tr>"; });
+        document.getElementById("tbl").innerHTML = t + "</table>";
+      }
+
+      Array.prototype.forEach.call(document.querySelectorAll("button[data-scope]"), function (b) { b.addEventListener("click", function () { state.scope = b.getAttribute("data-scope"); Array.prototype.forEach.call(document.querySelectorAll("button[data-scope]"), function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); }); draw(); }); });
+      Array.prototype.forEach.call(document.querySelectorAll("button[data-view]"), function (b) { b.addEventListener("click", function () { state.view = b.getAttribute("data-view"); Array.prototype.forEach.call(document.querySelectorAll("button[data-view]"), function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); }); draw(); }); });
+      document.getElementById("tbl-btn").addEventListener("click", function () { var t = document.getElementById("tbl"), on = t.style.display === "block"; t.style.display = on ? "none" : "block"; this.textContent = on ? "Show the numbers as a table" : "Hide the table"; });
+
+      d3.csv("data_topics.csv").then(function (res) {
+        res.forEach(function (r) { var sc = r.scope, yr = +r.year; data[sc] = data[sc] || {}; data[sc][yr] = data[sc][yr] || { n: +r.n_articles, s: {} }; data[sc][yr].s[r.category] = +r.share; });
+        years = Object.keys(data.Local).map(Number).sort(function (a, b) { return a - b; });
+        draw();
+      }).catch(function (err) { document.getElementById("summary").textContent = "The chart could not be loaded (" + (err && err.message ? err.message : err) + ")."; });
+    })();
+    </script>
+  </body>
+</html>
