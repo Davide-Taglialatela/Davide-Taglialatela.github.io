@@ -116,18 +116,25 @@
           svg.selectAll("*").remove();
           var rs = rows();
           var x = d3.scaleLinear().domain(d3.extent(years)).range([M.left, W - M.right]);
-          var y = d3.scaleLinear().domain([0, Math.min(1, (d3.max(rs, function (r) { return d3.max(DRAWN, function (c) { return r[c.key]; }); }) || 1) * 1.08)]).range([H - M.bottom, M.top]);
+          var y = d3.scaleLinear().domain([0, opts.stacked ? 1 : Math.min(1, (d3.max(rs, function (r) { return d3.max(DRAWN, function (c) { return r[c.key]; }); }) || 1) * 1.08)]).range([H - M.bottom, M.top]);
           var g = svg.append("g");
           g.append("g").attr("transform", "translate(0," + (H - M.bottom) + ")").call(d3.axisBottom(x).tickValues(years.filter(function (yv, k) { return (W - M.left - M.right) / years.length >= 30 || k % 2 === 0; })).tickFormat(d3.format("d")).tickSize(4)).call(function (s) { s.select(".domain").attr("stroke", "#c8c8c8"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); s.selectAll("line").attr("stroke", "#c8c8c8"); });
           g.append("g").attr("transform", "translate(" + M.left + ",0)").call(d3.axisLeft(y).ticks(5).tickFormat(pct).tickSize(-(W - M.left - M.right))).call(function (s) { s.select(".domain").remove(); s.selectAll("line").attr("stroke", "#ececec"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); });
           var labelData = [];
-          var line = d3.line().x(function (d) { return x(d.year); }).y(function (d) { return y(d.v); }).curve(d3.curveMonotoneX);
-          DRAWN.forEach(function (c) {
-            var pts = rs.map(function (r) { return { year: r.year, v: r[c.key] }; });
-            g.append("path").attr("fill", "none").attr("stroke", c.color).attr("stroke-width", c.key === opts.highlight ? 3 : 2).attr("d", line(pts));
-            g.selectAll(null).data(pts).enter().append("circle").attr("cx", function (d) { return x(d.year); }).attr("cy", function (d) { return y(d.v); }).attr("r", 3.2).attr("fill", "#fff").attr("stroke", c.color).attr("stroke-width", 1.5);
-            labelData.push({ cat: c, y: y(pts[pts.length - 1].v), share: pts[pts.length - 1].v });
-          });
+          if (opts.stacked) {
+            var stack = d3.stack().keys(DRAWN.map(function (c) { return c.key; }))(rs);
+            var area = d3.area().x(function (d) { return x(d.data.year); }).y0(function (d) { return y(d[0]); }).y1(function (d) { return y(d[1]); }).curve(d3.curveMonotoneX);
+            g.selectAll("path.layer").data(stack).enter().append("path").attr("class", "layer").attr("fill", function (d, i) { return DRAWN[i].color; }).attr("stroke", "#fff").attr("stroke-width", 1).attr("d", area);
+            stack.forEach(function (layer, i) { var last = layer[layer.length - 1]; labelData.push({ cat: DRAWN[i], y: (y(last[0]) + y(last[1])) / 2, share: last.data[DRAWN[i].key] }); });
+          } else {
+            var line = d3.line().x(function (d) { return x(d.year); }).y(function (d) { return y(d.v); }).curve(d3.curveMonotoneX);
+            DRAWN.forEach(function (c) {
+              var pts = rs.map(function (r) { return { year: r.year, v: r[c.key] }; });
+              g.append("path").attr("fill", "none").attr("stroke", c.color).attr("stroke-width", c.key === opts.highlight ? 3 : 2).attr("d", line(pts));
+              g.selectAll(null).data(pts).enter().append("circle").attr("cx", function (d) { return x(d.year); }).attr("cy", function (d) { return y(d.v); }).attr("r", 3.2).attr("fill", "#fff").attr("stroke", c.color).attr("stroke-width", 1.5);
+              labelData.push({ cat: c, y: y(pts[pts.length - 1].v), share: pts[pts.length - 1].v });
+            });
+          }
           labelData.sort(function (a, b) { return a.y - b.y; });
           for (var i = 1; i < labelData.length; i++) { if (labelData[i].y - labelData[i - 1].y < 14) labelData[i].y = labelData[i - 1].y + 14; }
           g.selectAll("text.lbl").data(labelData).enter().append("text").attr("class", "lbl").attr("x", W - M.right + 10).attr("y", function (d) { return d.y + 4; }).attr("font-size", 12).attr("fill", "#1a1a1a").text(function (d) { return d.cat.label + " " + pct(d.share); });
@@ -177,13 +184,13 @@
       }));
       charts.push(makeChart({
         svg: "chart2", box: "chart-box2", tooltip: "tooltip2", legend: "legend2", summary: "summary2", tbl: "tbl2", tblBtn: "tbl-btn2",
-        csv: "data_climate.csv", highlight: "Disaster linked to climate change", unit: "climate articles", right: 300,
+        csv: "data_climate.csv", highlight: "Disaster linked to climate change", unit: "climate articles", right: 300, stacked: true,
         cats: [
-          { key: "Climate change in general", v: "--g-general", label: "Climate change in general" },
-          { key: "Preparedness, disaster policy and insurance", v: "--g-prep", label: "Preparedness, disaster policy and insurance" },
-          { key: "Green energy and industry", v: "--g-green", label: "Green energy and industry" },
+          { key: "Disaster linked to climate change", v: "--g-disaster", label: "Disaster linked to climate change" },
           { key: "Climate policy", v: "--g-policy", label: "Climate policy" },
-          { key: "Disaster linked to climate change", v: "--g-disaster", label: "Disaster linked to climate change" }
+          { key: "Climate change in general", v: "--g-general", label: "Climate change in general" },
+          { key: "Green energy and industry", v: "--g-green", label: "Green energy and industry" },
+          { key: "Preparedness, disaster policy and insurance", v: "--g-prep", label: "Preparedness, disaster policy and insurance" }
         ]
       }));
 
