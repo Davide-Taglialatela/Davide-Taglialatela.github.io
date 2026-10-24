@@ -10,7 +10,10 @@
       :root {
         --c-skeptical: #e87ba4; --c-climate: #a51c30; --c-personal: #2a78d6; --c-human: #eb6834;
         --c-institutional: #1baf7a; --c-background: #eda100; --c-facts: #8a8f94;
+        --g-disaster: #a51c30; --g-policy: #2a78d6; --g-green: #1baf7a; --g-general: #252E31; --g-prep: #eda100;
       }
+      .chart-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 36px 0 10px; }
+      .chart-lead { font-size: 14.5px; color: #444; margin: 0 0 12px; max-width: 760px; }
       .wrapper.map-wrapper { max-width: 1000px; padding-top: 48px; }
       .map-wrapper header { margin-bottom: 28px; }
       .back { font-size: 13.5px; color: var(--muted); margin: 0 0 18px; }
@@ -64,6 +67,7 @@
         </div>
       </div>
 
+      <h2 class="chart-title">Disaster coverage</h2>
       <div class="chart-box" id="chart-box">
         <svg id="chart" viewBox="0 0 960 460" role="img" aria-label="Yearly shares of disaster coverage by category"></svg>
         <div class="tooltip" id="tooltip" role="status"></div>
@@ -73,9 +77,21 @@
       <button type="button" class="link-btn" id="tbl-btn">Show the numbers as a table</button>
       <div class="tbl" id="tbl"></div>
 
+      <h2 class="chart-title">Climate coverage in general</h2>
+      <p class="chart-lead">All articles that mention climate change, whatever the subject: what share is a disaster linked to climate change, climate policy, green energy and industry, climate change in general, or preparedness, disaster policy and insurance.</p>
+      <div class="chart-box" id="chart-box2">
+        <svg id="chart2" viewBox="0 0 960 460" role="img" aria-label="Yearly shares of climate coverage by class"></svg>
+        <div class="tooltip" id="tooltip2" role="status"></div>
+      </div>
+      <div class="legend" id="legend2"></div>
+      <p class="summary" id="summary2"></p>
+      <button type="button" class="link-btn" id="tbl-btn2">Show the numbers as a table</button>
+      <div class="tbl" id="tbl2"></div>
+
       <div class="notes">
         <p><strong>Categories.</strong> <em>Skeptical</em>: the article disputes the link between the disaster and climate change. <em>Climate-linked</em>: it connects the event to climate change, or has substantive sections on both. <em>Episodic storytelling</em>: it tells the event through individuals&rsquo; stories. <em>Human impacts</em>: victims and damage to homes are the central topic, but without storytelling. <em>Institutional response</em>: relief, agencies, insurance. <em>Disaster background and risk</em>: the article goes beyond the specific event, for example the hazard in general, how often it strikes, or what to expect in the future, without linking it to climate change. <em>Event facts</em>: only the specific event. Each article gets the first category that applies, in this order. An article with a climate link and background blocks is climate-linked, which keeps the background category small.</p>
         <p><strong>Corpus.</strong> 1,434,459 disaster articles published 2000&ndash;2024 by U.S. local and national outlets, classified paragraph by paragraph with the fine-tuned language models behind the climate interpretation measure. Shares are computed within outlet scope and year.</p>
+        <p><strong>Climate coverage in general.</strong> An article enters when it has a paragraph on climate change, links a disaster to climate change, or is centred on climate policy. Classes, in order: <em>disaster linked to climate change</em>; <em>climate policy</em>; <em>green energy and industry</em>; <em>preparedness, disaster policy and insurance</em>; and <em>climate change in general</em>, the rest, mostly science, trends and projections.</p>
         <p>From <a href="../files/JMP_Davide_Taglialatela.pdf">What a Disaster Means: Attention, Interpretation, and the Demand for Green Assets</a>.</p>
       </div>
     </div>
@@ -83,76 +99,100 @@
     <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
     <script>
     (function () {
-      var CATS = [
-        { key: "Event facts", v: "--c-facts", label: "Event facts only" },
-        { key: "Disaster background and risk", v: "--c-background", label: "Disaster background and risk" },
-        { key: "Institutional response", v: "--c-institutional", label: "Institutional response" },
-        { key: "Human impacts", v: "--c-human", label: "Human impacts" },
-        { key: "Personal storytelling", v: "--c-personal", label: "Episodic storytelling" },
-        { key: "Climate-linked", v: "--c-climate", label: "Climate-linked" },
-        { key: "Skeptical", v: "--c-skeptical", label: "Skeptical of the climate link" }
-      ];
       var css = getComputedStyle(document.documentElement);
-      CATS.forEach(function (c) { c.color = css.getPropertyValue(c.v).trim(); });
-      var state = { scope: "Local" };
-      var data = {}, years = [];
-      var svg = d3.select("#chart"), box = document.getElementById("chart-box"), tooltip = document.getElementById("tooltip");
-      var W = 960, H = 460, M = { top: 18, right: 205, bottom: 34, left: 44 };
       var pct = d3.format(".0%"), pct1 = d3.format(".1%");
+      var W = 960, H = 460, M = { top: 18, right: 205, bottom: 34, left: 44 };
+      var scope = "Local", charts = [];
 
-      function rows() { return years.map(function (y) { var r = data[state.scope][y], o = { year: y, n: r.n }; CATS.forEach(function (c) { o[c.key] = r.s[c.key] || 0; }); return o; }); }
-
-      function draw() {
-        svg.selectAll("*").remove();
-        var rs = rows();
-        var DRAWN = CATS.filter(function (c) { return c.key !== "Event facts"; });
-        var x = d3.scaleLinear().domain(d3.extent(years)).range([M.left, W - M.right]);
-        var y = d3.scaleLinear().domain([0, Math.min(1, (d3.max(rs, function (r) { return d3.max(DRAWN, function (c) { return r[c.key]; }); }) || 1) * 1.08)]).range([H - M.bottom, M.top]);
-        var g = svg.append("g");
-        g.append("g").attr("transform", "translate(0," + (H - M.bottom) + ")").call(d3.axisBottom(x).ticks(years.length).tickFormat(d3.format("d")).tickSize(4)).call(function (s) { s.select(".domain").attr("stroke", "#c8c8c8"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); s.selectAll("line").attr("stroke", "#c8c8c8"); });
-        g.append("g").attr("transform", "translate(" + M.left + ",0)").call(d3.axisLeft(y).ticks(5).tickFormat(pct).tickSize(-(W - M.left - M.right))).call(function (s) { s.select(".domain").remove(); s.selectAll("line").attr("stroke", "#ececec"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); });
-        var labelData = [];
-        var line = d3.line().x(function (d) { return x(d.year); }).y(function (d) { return y(d.v); }).curve(d3.curveMonotoneX);
-        DRAWN.forEach(function (c) {
-          var pts = rs.map(function (r) { return { year: r.year, v: r[c.key] }; });
-          g.append("path").attr("fill", "none").attr("stroke", c.color).attr("stroke-width", c.key === "Climate-linked" ? 3 : 2).attr("d", line(pts));
-          g.selectAll(null).data(pts).enter().append("circle").attr("cx", function (d) { return x(d.year); }).attr("cy", function (d) { return y(d.v); }).attr("r", 3.2).attr("fill", "#fff").attr("stroke", c.color).attr("stroke-width", 1.5);
-          labelData.push({ cat: c, y: y(pts[pts.length - 1].v), share: pts[pts.length - 1].v });
-        });
-        labelData.sort(function (a, b) { return a.y - b.y; });
-        for (var i = 1; i < labelData.length; i++) { if (labelData[i].y - labelData[i - 1].y < 14) labelData[i].y = labelData[i - 1].y + 14; }
-        g.selectAll("text.lbl").data(labelData).enter().append("text").attr("class", "lbl").attr("x", W - M.right + 10).attr("y", function (d) { return d.y + 4; }).attr("font-size", 12).attr("fill", "#1a1a1a").text(function (d) { return d.cat.label + " " + pct(d.share); });
-        var hover = g.append("line").attr("stroke", "#1a1a1a").attr("stroke-width", 1).attr("y1", M.top).attr("y2", H - M.bottom).style("display", "none");
-        svg.append("rect").attr("x", M.left).attr("y", M.top).attr("width", W - M.left - M.right).attr("height", H - M.top - M.bottom).attr("fill", "transparent")
-          .on("mousemove", function (ev) {
-            var p = d3.pointer(ev, svg.node()), yr = Math.round(x.invert(p[0])); yr = Math.max(years[0], Math.min(years[years.length - 1], yr));
-            hover.attr("x1", x(yr)).attr("x2", x(yr)).style("display", null);
-            var r = data[state.scope][yr], html = '<div class="tt-name">' + state.scope + " outlets, " + yr + '</div><table>';
-            CATS.slice().reverse().forEach(function (c) { html += '<tr><td><span class="sw" style="background:' + c.color + '"></span>' + c.label + '</td><td class="num">' + pct1(r.s[c.key] || 0) + "</td></tr>"; });
-            html += '</table><div class="tt-muted" style="color:#6b6b6b;margin-top:3px">' + r.n.toLocaleString() + " articles</div>";
-            tooltip.innerHTML = html; tooltip.style.display = "block";
-            var br = box.getBoundingClientRect(), px = ev.clientX - br.left, py = ev.clientY - br.top, tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
-            var left = px + 14; if (left + tw > br.width - 4) left = px - tw - 14;
-            var top = py + 14; if (top + th > br.height - 4) top = Math.max(4, py - th - 14);
-            tooltip.style.left = Math.max(4, left) + "px"; tooltip.style.top = top + "px";
-          })
-          .on("mouseleave", function () { hover.style("display", "none"); tooltip.style.display = "none"; });
-        document.getElementById("legend").innerHTML = DRAWN.slice().reverse().map(function (c) { return '<span class="item"><span class="sw" style="background:' + c.color + '"></span>' + (c.key === "Climate-linked" ? "<strong>" + c.label + "</strong>" : c.label) + "</span>"; }).join("");
-        var first = data[state.scope][years[0]], last = data[state.scope][years[years.length - 1]];
-        document.getElementById("summary").textContent = state.scope + " outlets: climate-linked share " + pct(first.s["Climate-linked"] || 0) + " in " + years[0] + ", " + pct(last.s["Climate-linked"] || 0) + " in " + years[years.length - 1] + "; " + d3.sum(years, function (yv) { return data[state.scope][yv].n; }).toLocaleString() + " disaster articles over the period.";
-        var t = '<table><tr><th>Year</th><th>Articles</th>' + CATS.slice().reverse().map(function (c) { return "<th>" + c.label + "</th>"; }).join("") + "</tr>";
-        rs.forEach(function (r) { t += "<tr><td>" + r.year + "</td><td>" + r.n.toLocaleString() + "</td>" + CATS.slice().reverse().map(function (c) { return "<td>" + pct1(r[c.key]) + "</td>"; }).join("") + "</tr>"; });
-        document.getElementById("tbl").innerHTML = t + "</table>";
+      function makeChart(opts) {
+        var CATS = opts.cats.map(function (c) { c.color = css.getPropertyValue(c.v).trim(); return c; });
+        var DRAWN = CATS.filter(function (c) { return !c.residual; });
+        var svg = d3.select("#" + opts.svg), box = document.getElementById(opts.box), tooltip = document.getElementById(opts.tooltip);
+        var data = {}, years = [];
+        function rows() { return years.map(function (y) { var r = data[scope][y], o = { year: y, n: r.n }; CATS.forEach(function (c) { o[c.key] = r.s[c.key] || 0; }); return o; }); }
+        function draw() {
+          if (!years.length) return;
+          svg.selectAll("*").remove();
+          var rs = rows();
+          var x = d3.scaleLinear().domain(d3.extent(years)).range([M.left, W - M.right]);
+          var y = d3.scaleLinear().domain([0, Math.min(1, (d3.max(rs, function (r) { return d3.max(DRAWN, function (c) { return r[c.key]; }); }) || 1) * 1.08)]).range([H - M.bottom, M.top]);
+          var g = svg.append("g");
+          g.append("g").attr("transform", "translate(0," + (H - M.bottom) + ")").call(d3.axisBottom(x).ticks(years.length).tickFormat(d3.format("d")).tickSize(4)).call(function (s) { s.select(".domain").attr("stroke", "#c8c8c8"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); s.selectAll("line").attr("stroke", "#c8c8c8"); });
+          g.append("g").attr("transform", "translate(" + M.left + ",0)").call(d3.axisLeft(y).ticks(5).tickFormat(pct).tickSize(-(W - M.left - M.right))).call(function (s) { s.select(".domain").remove(); s.selectAll("line").attr("stroke", "#ececec"); s.selectAll("text").attr("fill", "#6b6b6b").attr("font-size", 11.5); });
+          var labelData = [];
+          var line = d3.line().x(function (d) { return x(d.year); }).y(function (d) { return y(d.v); }).curve(d3.curveMonotoneX);
+          DRAWN.forEach(function (c) {
+            var pts = rs.map(function (r) { return { year: r.year, v: r[c.key] }; });
+            g.append("path").attr("fill", "none").attr("stroke", c.color).attr("stroke-width", c.key === opts.highlight ? 3 : 2).attr("d", line(pts));
+            g.selectAll(null).data(pts).enter().append("circle").attr("cx", function (d) { return x(d.year); }).attr("cy", function (d) { return y(d.v); }).attr("r", 3.2).attr("fill", "#fff").attr("stroke", c.color).attr("stroke-width", 1.5);
+            labelData.push({ cat: c, y: y(pts[pts.length - 1].v), share: pts[pts.length - 1].v });
+          });
+          labelData.sort(function (a, b) { return a.y - b.y; });
+          for (var i = 1; i < labelData.length; i++) { if (labelData[i].y - labelData[i - 1].y < 14) labelData[i].y = labelData[i - 1].y + 14; }
+          g.selectAll("text.lbl").data(labelData).enter().append("text").attr("class", "lbl").attr("x", W - M.right + 10).attr("y", function (d) { return d.y + 4; }).attr("font-size", 12).attr("fill", "#1a1a1a").text(function (d) { return d.cat.label + " " + pct(d.share); });
+          var hover = g.append("line").attr("stroke", "#1a1a1a").attr("stroke-width", 1).attr("y1", M.top).attr("y2", H - M.bottom).style("display", "none");
+          svg.append("rect").attr("x", M.left).attr("y", M.top).attr("width", W - M.left - M.right).attr("height", H - M.top - M.bottom).attr("fill", "transparent")
+            .on("mousemove", function (ev) {
+              var p = d3.pointer(ev, svg.node()), yr = Math.round(x.invert(p[0])); yr = Math.max(years[0], Math.min(years[years.length - 1], yr));
+              hover.attr("x1", x(yr)).attr("x2", x(yr)).style("display", null);
+              var r = data[scope][yr], html = '<div class="tt-name">' + scope + " outlets, " + yr + '</div><table>';
+              CATS.slice().reverse().forEach(function (c) { html += '<tr><td><span class="sw" style="background:' + c.color + '"></span>' + c.label + '</td><td class="num">' + pct1(r.s[c.key] || 0) + "</td></tr>"; });
+              html += '</table><div style="color:#6b6b6b;margin-top:3px">' + r.n.toLocaleString() + " articles</div>";
+              tooltip.innerHTML = html; tooltip.style.display = "block";
+              var br = box.getBoundingClientRect(), px = ev.clientX - br.left, py = ev.clientY - br.top, tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+              var left = px + 14; if (left + tw > br.width - 4) left = px - tw - 14;
+              var top = py + 14; if (top + th > br.height - 4) top = Math.max(4, py - th - 14);
+              tooltip.style.left = Math.max(4, left) + "px"; tooltip.style.top = top + "px";
+            })
+            .on("mouseleave", function () { hover.style("display", "none"); tooltip.style.display = "none"; });
+          document.getElementById(opts.legend).innerHTML = DRAWN.slice().reverse().map(function (c) { return '<span class="item"><span class="sw" style="background:' + c.color + '"></span>' + (c.key === opts.highlight ? "<strong>" + c.label + "</strong>" : c.label) + "</span>"; }).join("");
+          var first = data[scope][years[0]], last = data[scope][years[years.length - 1]], hl = CATS.filter(function (c) { return c.key === opts.highlight; })[0];
+          document.getElementById(opts.summary).textContent = scope + " outlets: " + hl.label.toLowerCase() + " " + pct(first.s[hl.key] || 0) + " of " + opts.unit + " in " + years[0] + ", " + pct(last.s[hl.key] || 0) + " in " + years[years.length - 1] + "; " + d3.sum(years, function (yv) { return data[scope][yv].n; }).toLocaleString() + " " + opts.unit + " over the period.";
+          var t = '<table><tr><th>Year</th><th>Articles</th>' + CATS.slice().reverse().map(function (c) { return "<th>" + c.label + "</th>"; }).join("") + "</tr>";
+          rs.forEach(function (r) { t += "<tr><td>" + r.year + "</td><td>" + r.n.toLocaleString() + "</td>" + CATS.slice().reverse().map(function (c) { return "<td>" + pct1(r[c.key]) + "</td>"; }).join("") + "</tr>"; });
+          document.getElementById(opts.tbl).innerHTML = t + "</table>";
+        }
+        document.getElementById(opts.tblBtn).addEventListener("click", function () { var t = document.getElementById(opts.tbl), on = t.style.display === "block"; t.style.display = on ? "none" : "block"; this.textContent = on ? "Show the numbers as a table" : "Hide the table"; });
+        d3.csv(opts.csv).then(function (res) {
+          res.forEach(function (r) { var sc = r.scope, yr = +r.year; data[sc] = data[sc] || {}; data[sc][yr] = data[sc][yr] || { n: +r.n_articles, s: {} }; data[sc][yr].s[r.category] = +r.share; });
+          years = Object.keys(data.Local).map(Number).sort(function (a, b) { return a - b; });
+          draw();
+        }).catch(function (err) { document.getElementById(opts.summary).textContent = "The chart could not be loaded (" + (err && err.message ? err.message : err) + ")."; });
+        return { draw: draw };
       }
 
-      Array.prototype.forEach.call(document.querySelectorAll("button[data-scope]"), function (b) { b.addEventListener("click", function () { state.scope = b.getAttribute("data-scope"); Array.prototype.forEach.call(document.querySelectorAll("button[data-scope]"), function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); }); draw(); }); });
-      document.getElementById("tbl-btn").addEventListener("click", function () { var t = document.getElementById("tbl"), on = t.style.display === "block"; t.style.display = on ? "none" : "block"; this.textContent = on ? "Show the numbers as a table" : "Hide the table"; });
+      charts.push(makeChart({
+        svg: "chart", box: "chart-box", tooltip: "tooltip", legend: "legend", summary: "summary", tbl: "tbl", tblBtn: "tbl-btn",
+        csv: "data_topics.csv", highlight: "Climate-linked", unit: "disaster articles",
+        cats: [
+          { key: "Event facts", v: "--c-facts", label: "Event facts only", residual: true },
+          { key: "Disaster background and risk", v: "--c-background", label: "Disaster background and risk" },
+          { key: "Institutional response", v: "--c-institutional", label: "Institutional response" },
+          { key: "Human impacts", v: "--c-human", label: "Human impacts" },
+          { key: "Personal storytelling", v: "--c-personal", label: "Episodic storytelling" },
+          { key: "Climate-linked", v: "--c-climate", label: "Climate-linked" },
+          { key: "Skeptical", v: "--c-skeptical", label: "Skeptical of the climate link" }
+        ]
+      }));
+      charts.push(makeChart({
+        svg: "chart2", box: "chart-box2", tooltip: "tooltip2", legend: "legend2", summary: "summary2", tbl: "tbl2", tblBtn: "tbl-btn2",
+        csv: "data_climate.csv", highlight: "Disaster linked to climate change", unit: "climate articles",
+        cats: [
+          { key: "Climate change in general", v: "--g-general", label: "Climate change in general" },
+          { key: "Preparedness, disaster policy and insurance", v: "--g-prep", label: "Preparedness, disaster policy and insurance" },
+          { key: "Green energy and industry", v: "--g-green", label: "Green energy and industry" },
+          { key: "Climate policy", v: "--g-policy", label: "Climate policy" },
+          { key: "Disaster linked to climate change", v: "--g-disaster", label: "Disaster linked to climate change" }
+        ]
+      }));
 
-      d3.csv("data_topics.csv").then(function (res) {
-        res.forEach(function (r) { var sc = r.scope, yr = +r.year; data[sc] = data[sc] || {}; data[sc][yr] = data[sc][yr] || { n: +r.n_articles, s: {} }; data[sc][yr].s[r.category] = +r.share; });
-        years = Object.keys(data.Local).map(Number).sort(function (a, b) { return a - b; });
-        draw();
-      }).catch(function (err) { document.getElementById("summary").textContent = "The chart could not be loaded (" + (err && err.message ? err.message : err) + ")."; });
+      Array.prototype.forEach.call(document.querySelectorAll("button[data-scope]"), function (b) {
+        b.addEventListener("click", function () {
+          scope = b.getAttribute("data-scope");
+          Array.prototype.forEach.call(document.querySelectorAll("button[data-scope]"), function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+          charts.forEach(function (c) { c.draw(); });
+        });
+      });
     })();
     </script>
   </body>
