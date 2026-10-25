@@ -177,6 +177,9 @@ details.abstract p { margin-top: 0.5rem; }
 .teaching-note { margin: 0 0 0.5rem 0; font-weight: 600; }
 .wrapper ul.teaching { list-style: none; padding-left: 1.4rem; margin: 0; }
 .wrapper ul.teaching li { margin: 0.2rem 0; padding-left: 0; }
+.wrapper ul.teaching > li { margin-top: 0.5rem; }
+.wrapper ul.teaching ul { list-style: none; padding-left: 1.2rem; margin: 0.1rem 0 0 0; color: var(--muted); }
+.wrapper ul.teaching ul li { margin: 0.1rem 0; }
 
 .paper-links .sep, ul.teaching .sep {
   color: var(--muted);
