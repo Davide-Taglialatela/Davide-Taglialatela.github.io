@@ -29,9 +29,9 @@ body {
 }
 
 .wrapper {
-  max-width: 680px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 80px 28px 120px;
+  padding: 80px 32px 120px;
 }
 
 header {
@@ -219,7 +219,7 @@ details.abstract p { margin-top: 0.5rem; }
 .figure-slide.active { display: block; }
 .figure-slide img {
   max-width: 100%;
-  max-height: 440px;
+  max-height: 520px;
   width: auto;
   height: auto;
   display: inline-block;
@@ -232,7 +232,7 @@ details.abstract p { margin-top: 0.5rem; }
   line-height: 1.5;
   color: var(--muted);
   margin: 10px auto 0;
-  max-width: 600px;
+  max-width: 760px;
   text-align: left;
 }
 .figure-slide .figgroup { font-weight: 600; color: var(--text); }
@@ -253,3 +253,17 @@ details.abstract p { margin-top: 0.5rem; }
 .map-link a { font-weight: 600; }
 
 .wip-summary { margin: 0.4rem 0 0 0; }
+
+/* wide screens: left column for photo and contact, everything else in the
+   right column (same proportions as a 1180px container, 260px side column) */
+@media (min-width: 900px) {
+  .intro { gap: 32px; }
+  .photo-block,
+  .photo-block img,
+  .photo-placeholder { width: 260px; }
+  .photo-placeholder { height: 330px; }
+  .contact { font-size: 14px; }
+  .intro-text p { font-size: 16px; }
+  section { margin-left: 292px; }
+}
+
