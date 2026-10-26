@@ -70,7 +70,7 @@
       <header>
         <p class="back"><a href="../">&larr; Davide Taglialatela</a><span class="sep">&middot;</span><a href="./" data-map-link="./">News map</a><span class="sep">&middot;</span><a href="topics.html">Disaster coverage by category</a></p>
         <h1 class="map-title">Investors, firms and disasters by county, 2015&ndash;2024</h1>
-        <p class="map-sub">Where the money and the firms are: local investment advisers&rsquo; green ETF holdings and mutual-fund managers&rsquo; E-pillar tilt by year, listed firms by environmental score or physical climate risk at their headquarters county, and the floods, hurricanes, wildfires and coastal events of 2015&ndash;2024. Counties can be shaded by the local climate interpretation of disaster coverage in the selected year.</p>
+        <p class="map-sub">Local investment advisers&rsquo; green ETF holdings and mutual-fund managers&rsquo; E-pillar tilt by county and year, listed firms by environmental score or physical climate risk at their headquarters county, and the floods, hurricanes, wildfires and coastal events that hit each county. Counties can be shaded by the local climate interpretation of disaster coverage in the selected year. Tick a layer to show it on the map.</p>
       </header>
 
       <div class="controls" id="controls">
@@ -86,7 +86,7 @@
         <div class="control layer">
           <label><input type="checkbox" id="lay-adv" checked /> Local advisers&rsquo; green ETF holdings</label>
           <label><input type="checkbox" id="lay-mf" /> Mutual-fund managers&rsquo; E-pillar tilt</label>
-          <div class="sub" id="sub-year" title="Moves the advisers, the fund managers and the county shading">
+          <div class="sub" id="sub-year">
             <div class="year-row">
               <input type="range" id="year" min="0" max="10" step="1" value="0" aria-label="Year for the investor layers" />
               <span class="year-label" id="year-label">2015&ndash;2024 average</span>
@@ -128,8 +128,8 @@
       <p class="summary" id="summary"></p>
 
       <div class="notes">
-        <p><strong>Local advisers.</strong> Circles mark counties with SEC-registered investment advisers whose ETF holdings are observed. Colour is the green share of those holdings (ETFs tracking green or climate indices): none, or the lower, middle and upper third of counties with any green ETFs in that year. Circle size is the third of counties by ETF holdings. The year slider moves this layer, the fund managers and the county shading.</p>
-        <p><strong>Mutual-fund managers.</strong> Triangles mark the counties where the managers of active U.S. equity mutual funds work (fund management offices, weighted when a team spans several counties). Colour is the county&rsquo;s fifth by the funds&rsquo; portfolio tilt toward high environmental-score stocks (portfolio-weighted Refinitiv E-pillar score of the holdings, standardised within each year&rsquo;s stock cross-section); size is the number of funds managed there (1&ndash;2, 3&ndash;9, 10&ndash;39, 40 or more). The year slider moves this layer, the advisers and the county shading.</p>
+        <p><strong>Local advisers.</strong> Circles mark counties with SEC-registered investment advisers whose ETF holdings are observed. Colour is the green share of those holdings (ETFs tracking green or climate indices): none, or the lower, middle and upper third of counties with any green ETFs in that year. Circle size is the third of counties by ETF holdings.</p>
+        <p><strong>Mutual-fund managers.</strong> Triangles mark the counties where the managers of active U.S. equity mutual funds work (fund management offices, weighted when a team spans several counties). Colour is the county&rsquo;s fifth by the funds&rsquo; portfolio tilt toward high environmental-score stocks (portfolio-weighted Refinitiv E-pillar score of the holdings, standardised within each year&rsquo;s stock cross-section); size is the number of funds managed there (1&ndash;2, 3&ndash;9, 10&ndash;39, 40 or more).</p>
         <p><strong>Listed firms.</strong> Diamonds mark the headquarters counties of U.S. listed firms with a Refinitiv environmental pillar score, 2015&ndash;2024. Size is the number of firms (1, 2&ndash;3, 4&ndash;15, 16 or more). Colour is the county&rsquo;s fifth by the firms&rsquo; average environmental score or, when selected, by their average Trucost physical climate risk (mean sensitivity across cold waves, water stress, wildfire, drought, coastal and river floods, heat waves and hurricanes).</p>
         <p><strong>Disaster episodes</strong> are the paper&rsquo;s sample of floods, hurricanes, wildfires and coastal events from the NOAA Storm Events Database, retained when in the top 15 percent of an index of losses, fatalities and injuries. A county is marked when NOAA records positive damage, deaths or injuries there. All 2015&ndash;2024 episodes are shown together.</p>
         <p>Every quantity is shown as a group (thirds or fifths). From <a href="../files/JMP_Davide_Taglialatela.pdf">What a Disaster Means: Attention, Interpretation, and the Demand for Green Assets</a>.</p>
